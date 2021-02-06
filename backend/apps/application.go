@@ -26,6 +26,8 @@ func (a Application) CreateTest(r *gin.Engine) {
 
 func configureAppDB() {
 	database.AppConnection()
+	conn := database.GetDB()
+	migration.AutoMigration(conn)
 }
 
 func configureTestDB() {
@@ -41,7 +43,8 @@ func configureAPIEndpoint(r *gin.Engine) {
 	routes.NewRouter(g)
 	r.NoRoute(func(c *gin.Context) {
 		c.JSON(http.StatusNotFound, gin.H{
-			"status": 404,
+			"status":  http.StatusNotFound,
+			"message": "The page you are looking for dosen't exist",
 		})
 	})
 }

@@ -6,6 +6,8 @@ import User from "../components/User.vue";
 import Signup from "../components/Signup.vue";
 import Login from "../components/Login.vue";
 import NewProfile from "../components/NewProfile.vue";
+import NewContact from "../components/NewContact.vue";
+import Start from "../components/Start.vue";
 
 Vue.use(Router);
 
@@ -14,7 +16,9 @@ const routes = [
   { path: "/user/:id", component: User },
   { path: "/signup", component: Signup },
   { path: "/login", component: Login },
-  { path: "/profiles/new", component: NewProfile }
+  { path: "/profiles/new", component: NewProfile },
+  { path: "/contacts/new", component: NewContact },
+  { path: "/start", component: Start },
 ]
 
 const router = new Router({

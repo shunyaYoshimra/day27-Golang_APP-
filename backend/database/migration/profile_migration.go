@@ -5,6 +5,6 @@ import (
 	"github.com/shunyaYoshimra/day27/backend/database/entity"
 )
 
-func AutoMigration(conn *gorm.DB) {
-	conn.AutoMigrate(entity.User{}, entity.Profile{}, entity.Contact{})
+func CreateProfile(conn *gorm.DB) {
+	conn.AutoMigrate(&entity.Profile{})
 }

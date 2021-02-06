@@ -40,6 +40,18 @@ func (uc *UserController) Show(c *gin.Context) {
 	}
 }
 
+func (uc *UserController) GetMe(c *gin.Context) {
+	userID := middleware.GetSession(c)
+	if user, err := uc.Repository.FindByID(userID); err != nil {
+		res := response.NotFound("This user was not found")
+		c.JSON(res.Status, res)
+	} else {
+		res := response.SuccessResponse("")
+		res.Data = user
+		c.JSON(res.Status, res)
+	}
+}
+
 func (uc *UserController) Signup(c *gin.Context) {
 	var user entity.User
 	email := c.PostForm("email")
@@ -50,7 +62,7 @@ func (uc *UserController) Signup(c *gin.Context) {
 		c.JSON(res.Status, res)
 	} else {
 		if _, err := uc.Repository.FindByEmail(email); err == nil {
-			res := response.Conflict("This email has already been registared")
+			res := response.Conflict("このメールアドレスは既に登録されています(This e-mail has already been registered)")
 			c.JSON(res.Status, res)
 		} else {
 			passwordEncrypt, _ := middleware.PasswordEncrypt(pass)
