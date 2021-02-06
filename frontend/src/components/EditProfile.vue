@@ -302,4 +302,24 @@ export default {
     }
   }
 }
+@media (max-width: 480px) {
+  #edit-user {
+    .wrapper {
+      width: 100%;
+      textarea {
+        width: 350px;
+      }
+      input {
+        width: 350px;
+      }
+      .occupation {
+        .job-kinds {
+          label {
+            width: 50%;
+          }
+        }
+      }
+    }
+  }
+}
 </style>
