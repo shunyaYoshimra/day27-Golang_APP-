@@ -7,6 +7,7 @@ import Signup from "../components/Signup.vue";
 import Login from "../components/Login.vue";
 import NewProfile from "../components/NewProfile.vue";
 import Profile from "../components/Profile.vue";
+import EditProfile from "../components/EditProfile.vue";
 import NewContact from "../components/NewContact.vue";
 import Start from "../components/Start.vue";
 
@@ -19,6 +20,7 @@ const routes = [
   { path: "/login", component: Login },
   { path: "/profiles/new", component: NewProfile },
   { path: "/profile/:id", component: Profile },
+  { path: "/profiles/edit", component: EditProfile },
   { path: "/contacts/new", component: NewContact },
   { path: "/start", component: Start },
 ]

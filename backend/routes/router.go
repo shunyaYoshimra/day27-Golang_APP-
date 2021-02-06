@@ -11,6 +11,7 @@ func NewRouter(g *gin.RouterGroup) {
 	sessionController := controllers.NewSessionController()
 	profileController := controllers.NewProfileController()
 	contactController := controllers.NewContactController()
+	abroadController := controllers.NewAbroadController()
 	{
 		g.POST("/signup", userController.Signup)
 		g.POST("/login", sessionController.Login)
@@ -34,5 +35,11 @@ func NewRouter(g *gin.RouterGroup) {
 		l.GET("/my_contact", contactController.GetMyContact)
 		l.POST("/contacts", contactController.Create)
 		l.PUT("/contacts", contactController.Update)
+		// routes for abroad controller
+		l.GET("/abroads", abroadController.Index)
+		l.GET("/abroad/:id", abroadController.Show)
+		l.GET("/my_abroad", abroadController.MyAbroad)
+		l.POST("/abroads", abroadController.Create)
+		l.PUT("/abroads", abroadController.Update)
 	}
 }

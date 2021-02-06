@@ -32,7 +32,7 @@
         <p>{{profile.description}}</p>
       </div>
     </div>
-    <!-- <template v-if="abroadBool">
+    <template v-if="abroadBool">
       <div class="user-abroad">
         <p class="title">留学(Study Abroad)</p>
         <span><i class="material-icons tiny">place</i></span>{{abroad.country}}<br>
@@ -40,7 +40,7 @@
         <p class="description">{{abroad.description}}</p>
       </div>
     </template>
-    <template v-if="occupationBool">
+    <!-- <template v-if="occupationBool">
       <div class="user-occupation">
         <p class="title">就職(Job Seeking)</p>
         <span><i class="material-icons tiny">label</i></span>{{occupation.kind}}<br>
@@ -115,14 +115,14 @@ export default {
         this.contactBool = false
       }
     });
-  //   // get contact
-  //   axios.get(`/api/v1/abroad/${this.$route.params.id}`).then((res) => {
-  //     this.abroad = res.data;
-  //   }).catch((err) => {
-  //     if (err.response.status === 404) {
-  //       this.abroadBool = false
-  //     }
-  //   })
+    // get abroad
+    axios.get(`/api/abroad/${this.$route.params.id}`).then((res) => {
+      this.abroad = res.data.data;
+    }).catch((err) => {
+      if (err.response.status === 404) {
+        this.abroadBool = false
+      }
+    })
   //   // get occupation
   //   axios.get(`/api/v1/occupation/${this.$route.params.id}`).then((res) => {
   //     this.occupation = res.data;
@@ -150,22 +150,22 @@ export default {
           this.profileBool = false
         }
       });
-      // // get contact
-      // axios.get(`/api/contact/${id}`).then(res => {
-      //   this.contact = res.data;
-      // }).catch((err) => {
-      //   if (err.response.status === 404) {
-      //     this.contactBool = false
-      //   }
-      // });
-      // // get contact
-      // axios.get(`/api/abroad/${id}`).then((res) => {
-      //   this.abroad = res.data;
-      // }).catch((err) => {
-      //   if (err.response.status === 404) {
-      //     this.abroadBool = false
-      //   }
-      // })
+      // get contact
+      axios.get(`/api/contact/${id}`).then(res => {
+        this.contact = res.data;
+      }).catch((err) => {
+        if (err.response.status === 404) {
+          this.contactBool = false
+        }
+      });
+      // get abroad
+      axios.get(`/api/abroad/${id}`).then((res) => {
+        this.abroad = res.data;
+      }).catch((err) => {
+        if (err.response.status === 404) {
+          this.abroadBool = false
+        }
+      })
       // // get occupation
       // axios.get(`/api/v1/occupation/${id}`).then((res) => {
       //   this.occupation = res.data;
