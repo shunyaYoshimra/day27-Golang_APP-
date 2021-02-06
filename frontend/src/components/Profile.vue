@@ -40,14 +40,14 @@
         <p class="description">{{abroad.description}}</p>
       </div>
     </template>
-    <!-- <template v-if="occupationBool">
+    <template v-if="occupationBool">
       <div class="user-occupation">
         <p class="title">就職(Job Seeking)</p>
         <span><i class="material-icons tiny">label</i></span>{{occupation.kind}}<br>
         <span><i class="material-icons tiny">work</i></span>{{occupation.company}}
         <p class="description">{{occupation.description}}</p>
       </div>
-    </template> -->
+    </template>
   </div>
 </template>
 
@@ -123,14 +123,14 @@ export default {
         this.abroadBool = false
       }
     })
-  //   // get occupation
-  //   axios.get(`/api/v1/occupation/${this.$route.params.id}`).then((res) => {
-  //     this.occupation = res.data;
-  //   }).catch((err) => {
-  //     if (err.response.status === 404) {
-  //       this.occupationBool = false
-  //     }
-  //   })
+    // get occupation
+    axios.get(`/api/occupation/${this.$route.params.id}`).then((res) => {
+      this.occupation = res.data.data;
+    }).catch((err) => {
+      if (err.response.status === 404) {
+        this.occupationBool = false
+      }
+    })
   },
   methods: {
     fetchItems(id) {
@@ -166,14 +166,14 @@ export default {
           this.abroadBool = false
         }
       })
-      // // get occupation
-      // axios.get(`/api/v1/occupation/${id}`).then((res) => {
-      //   this.occupation = res.data;
-      // }).catch((err) => {
-      //   if (err.response.status === 404) {
-      //     this.occupationBool = false
-      //   }
-      // })
+      // get occupation
+      axios.get(`/api/occupation/${id}`).then((res) => {
+        this.occupation = res.data;
+      }).catch((err) => {
+        if (err.response.status === 404) {
+          this.occupationBool = false
+        }
+      })
     },
     linkToEdit() {
       this.$router.push("/profiles/edit");

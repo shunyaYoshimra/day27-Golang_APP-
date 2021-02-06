@@ -6,5 +6,5 @@ import (
 )
 
 func AutoMigration(conn *gorm.DB) {
-	conn.AutoMigrate(entity.User{}, entity.Profile{}, entity.Contact{}, entity.Abroad{})
+	conn.AutoMigrate(entity.User{}, entity.Profile{}, entity.Contact{}, entity.Abroad{}, entity.Occupation{})
 }

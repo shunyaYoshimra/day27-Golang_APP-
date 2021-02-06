@@ -65,7 +65,7 @@
         </div>
       </template>
       <hr>
-      <!-- <template v-if="occupationBool">
+      <template v-if="occupationBool">
         <div class="occupation">
           <p class="title">Occupation</p>
           <small class="explanation">あなたの仕事の様子や就活の様子を共有して、同じ業種を志望する後輩の参考になろう。</small><br>
@@ -98,7 +98,7 @@
           <textarea v-model="newOccupation.description" id="occupation-description"></textarea><br>
           <button @click="createOccupation()" class="btn blue lighten-3">go</button>
         </div>
-      </template> -->
+      </template>
     </div>
   </div>
 </template>
