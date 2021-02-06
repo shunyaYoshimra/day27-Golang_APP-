@@ -26,7 +26,7 @@ func NewRouter(g *gin.RouterGroup) {
 		l.GET("/get_me", userController.GetMe)
 		//  routes for profile controller
 		l.GET("/profile/:id", profileController.Show)
-		l.GET("my_profile", profileController.GetMyProfile)
+		l.GET("/my_profile", profileController.GetMyProfile)
 		l.POST("/profiles", profileController.Create)
 		l.PUT("/profiles", profileController.UpdateDescription)
 		// routes for contact controller

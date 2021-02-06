@@ -37,4 +37,9 @@ export default {
 .main {
   margin-top: 100px;
 }
+@media (max-width: 480px) {
+  .main{
+    margin-top: 40px;
+  }
+}
 </style>
