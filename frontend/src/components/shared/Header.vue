@@ -20,15 +20,64 @@
           <router-link class="test" to="/q">Questions</router-link>
         </li>
       </ul>
+
+      <li class="dropdown-trigger" data-target="dropdown2">
+        <i class="material-icons">add_circle_outline</i>
+      </li>
+
+      <!-- Dropdown Structure -->
+      <ul id="dropdown2" class="dropdown-content">
+        <li>
+          <router-link class="test" to="/posts/new">Study Abroad</router-link>
+        </li>
+        <li>
+          <router-link class="test" to="/articles/new">Job Seeking</router-link>
+        </li>
+        <li>
+          <router-link class="test" to="/questions/new">Questions</router-link>
+        </li>
+      </ul>
+
+      <li class="dropdown-trigger" data-target="dropdown3">
+        <i class="material-icons">face</i>
+      </li>
+
+      <!-- Dropdown Structure -->
+      <ul id="dropdown3" class="dropdown-content">
+        <li>
+          <router-link class="test" :to="{name: 'profile', params: {id: me.id}}">Profile</router-link>
+        </li>
+        <li>
+          <a class="test" href="#!">two</a>
+        </li>
+        <li>
+          <a class="test" href="#!">About Us</a>
+        </li>
+        <li class="divider" tabindex="-1"></li>
+        <li>
+          <a class="test" href="/api/logout">Logout</a>
+        </li>
+      </ul>
     </ul> 
   </header>
 </template>
 
 <script>
+import axios from "axios";
 export default {
+  data() {
+    return {
+      me: {},
+    }
+  },
   mounted() {
-     // jquery for dropdown
+    // jquery for dropdown
     $('.dropdown-trigger').dropdown();
+    //  get me
+    axios.get("/api/get_me").then((res) => {
+      console.log(res.data)
+      this.me = res.data.data;
+    })
   },
   updated() {
      // jquery for dropdown

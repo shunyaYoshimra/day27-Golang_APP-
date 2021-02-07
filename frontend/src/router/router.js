@@ -19,7 +19,7 @@ const routes = [
   { path: "/signup", component: Signup },
   { path: "/login", component: Login },
   { path: "/profiles/new", component: NewProfile },
-  { path: "/profile/:id", component: Profile },
+  { path: "/profile/:id", name: "profile", component: Profile },
   { path: "/profiles/edit", component: EditProfile },
   { path: "/contacts/new", component: NewContact },
   { path: "/start", component: Start },
