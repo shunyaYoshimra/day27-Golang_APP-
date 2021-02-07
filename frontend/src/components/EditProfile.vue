@@ -1,13 +1,28 @@
 <template>
   <div id="edit-user">
     <div class="wrapper">
-      <template v-if="!profileBool">
+      <template v-if="profileBool">
         <div class="profile">
           <p class="title">Profile</p>
           <textarea v-model="profile.description" placeholder="自己紹介をしよう(Write your profile)"></textarea>
+          <div class="subject">
+            <label v-for="(value, id) in subjects" :key="id">
+              <input v-model="profile.subject" :value="value" class="with-gap" name="group1" type="radio"  />
+              <span>{{value}}</span>
+            </label>
+          </div>
+          <label>*必須(Essential)</label><br>
+          <button @click="editProfile()" class="btn blue lighten-3">go</button>
+        </div>
+        <hr>
+      </template>
+      <template v-else>
+        <div class="profile">
+          <p class="title">Profile</p>
+          <textarea v-model="newProfile.description" placeholder="自己紹介をしよう(Write your profile)"></textarea>
           <div class="subject" v-for="(value, id) in subjects" :key="id">
             <label>
-              <input v-model="profile.subject" :value="value" class="with-gap" name="group1" type="radio"  />
+              <input v-model="newProfile.subject" :value="value" class="with-gap" name="group1" type="radio"  />
               <span>{{value}}</span>
             </label>
           </div>
@@ -35,6 +50,26 @@
             <input v-model="contact.account" type ="text">
           </div>
           <button @click="editContact()" class="btn blue lighten-3">go</button>
+          <hr>
+        </template>
+        <template v-else>
+          <p class="title">Contact</p>
+          <small class="explanation">Gaidai Chat Online は留学や就職で悩んだ際に、学生同士でコミュニケーションを取れるようにすることを目的としています。あなたの就活や留学の体験が気になった人からコンタクトを受けれるようにSNSとリンクさせましょう。</small><br><br>
+          <label>
+            <input v-model="newContact.media" value="twitter" class="with-gap" name="group1" type="radio"  />
+            <span>Twitter</span>
+          </label>
+          <label>
+            <input v-model="newContact.media" value="instagram" class="with-gap" name="group1" type="radio"  />
+            <span>Instagram</span>
+          </label>
+          <br>
+          <div class="account">
+            <small>アカウント名を記入してください。Twitterの場合には最初の@を抜いて記入してください。(Please write your account name. If you choose Twiiter, please write it without @)
+            </small>
+            <input v-model="newContact.account" type ="text">
+          </div>
+          <button @click="createContact()" class="btn blue lighten-3">go</button>
           <hr>
         </template>
       </div>
@@ -110,12 +145,18 @@ export default {
   data() {
     return {
       me: {},
+      profile: {},
       profileBool: true,
+      subjects: ["英米(Engilish)", "イスパニア(Spanish)", "中国(Chinese)", "ロシア(Russian)", "国際関係(IR)", "2部英米(Engilish')", "院生(Graduate)", "留学生(Exchange Students)", "その他(Other)"],
+      newProfile: {
+        description: "",
+        subject: "",
+      },
       contact: {},
       contactBool: true,
-      subjects: ["英米(Engilish)", "イスパニア(Spanish)", "中国(Chinese)", "ロシア(Russian)", "国際関係(IR)", "2部英米(Engilish')", "院生(Graduate)", "留学生(Exchange Students)", "その他(Other)"],
-      profile: {
-        subject: "",
+      newContact: {
+        media: "",
+        account: "",
       },
       abroad: {},
       abroadBool: true,
@@ -141,6 +182,7 @@ export default {
     })
     // get user profile
     axios.get("/api/my_profile").then((res) => {
+      this.profile = res.data.data;
     }).catch((err) => {
       if (err.response.status === 404) {
         this.profileBool = false;
@@ -175,12 +217,30 @@ export default {
   methods: {
     createProfile() {
       const params = new URLSearchParams();
-      params.append("description", this.profile.description)
-      params.append("subject", this.profile.subject)
-      axios.post("/api/v1/profiles/create", params).then((res) => {
+      params.append("description", this.newProfile.description)
+      params.append("subject", this.newProfile.subject)
+      axios.post("/api/profiles", params).then((res) => {
         this.$router.push(`/profile/${this.me.id}`)
       }).catch((err) => {
         console.log(err.response);
+      })
+    },
+    editProfile() {
+      const params = new URLSearchParams();
+      params.append("description", this.profile.description)
+      params.append("subject", this.profile.subject)
+      axios.put("/api/profiles", params).then((res) => {
+        this.$router.push(`/profile/${this.me.id}`)
+      }).catch((err) => {
+        console.log(err.response);
+      })
+    },
+    createContact() {
+      const params = new URLSearchParams();
+      params.append("media", this.newContact.media)
+      params.append("account", this.newContact.account)
+      axios.post("/api/contacts", params).then((res) => {
+        this.$router.push(`/profile/${this.me.id}`)
       })
     },
     editContact() {
@@ -305,6 +365,11 @@ export default {
 @media (max-width: 480px) {
   #edit-user {
     .wrapper {
+      .profile {
+        textarea {
+          width: 350px;
+        }
+      }
       width: 100%;
       textarea {
         width: 350px;

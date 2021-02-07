@@ -71,13 +71,14 @@ func (pc *ProfileController) GetMyProfile(c *gin.Context) {
 	}
 }
 
-func (pc *ProfileController) UpdateDescription(c *gin.Context) {
+func (pc *ProfileController) Update(c *gin.Context) {
 	userID := middleware.GetSession(c)
 	description := c.PostForm("description")
+	subject := c.PostForm("subject")
 	if profile, err := pc.Repository.FindByUser(userID); err != nil {
 		res := response.NotFound("プロフィールが見つかりませんでした(This Profile wasn't Found)")
 		c.JSON(res.Status, res)
-	} else if err := pc.Repository.UpdateDescription(profile, description); err != nil {
+	} else if err := pc.Repository.Update(profile, description, subject); err != nil {
 		res := response.BadRequest("予期せぬエラーが発生しました(An unexpected error has occured)")
 		c.JSON(res.Status, res)
 	} else {

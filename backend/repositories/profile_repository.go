@@ -29,7 +29,7 @@ func (pr *ProfileRepository) Create(profile *entity.Profile) (err error) {
 	return
 }
 
-func (pr *ProfileRepository) UpdateDescription(profile entity.Profile, description string) (err error) {
-	err = pr.Conn.Model(&profile).Update(entity.Profile{Description: description}).Error
+func (pr *ProfileRepository) Update(profile entity.Profile, description, subject string) (err error) {
+	err = pr.Conn.Model(&profile).Update(entity.Profile{Description: description, Subject: subject}).Error
 	return
 }

@@ -24,9 +24,6 @@
             </a>
           </template>
         </template>
-        <template v-else>
-          <router-link to="/contacts/new">Contact</router-link>
-        </template>
       </div>
       <div class="description">
         <p>{{profile.description}}</p>

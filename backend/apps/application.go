@@ -50,6 +50,6 @@ func configureAPIEndpoint(r *gin.Engine) {
 }
 
 func configureView(r *gin.Engine) {
-	r.Static("/src", "../frontend/dist")
+	r.Static("/dist", "../frontend/dist")
 	r.StaticFS("/app", http.Dir("../frontend/static"))
 }
