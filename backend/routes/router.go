@@ -13,6 +13,7 @@ func NewRouter(g *gin.RouterGroup) {
 	contactController := controllers.NewContactController()
 	abroadController := controllers.NewAbroadController()
 	occupationController := controllers.NewOccupationController()
+	questionController := controllers.NewQuestionController()
 	{
 		g.POST("/signup", userController.Signup)
 		g.POST("/login", sessionController.Login)
@@ -48,5 +49,14 @@ func NewRouter(g *gin.RouterGroup) {
 		l.GET("/my_occupation", occupationController.MyOccupation)
 		l.POST("/occupations", occupationController.Create)
 		l.PUT("/occupations", occupationController.Update)
+		// routes for question controller
+		l.GET("/questions", questionController.Index)
+		l.GET("/question/:id", questionController.Show)
+		l.GET("/questions/:id", questionController.UserQuestions)
+		l.GET("/searched_questions", questionController.SearchedIndex)
+		l.POST("/questions", questionController.Create)
+		l.PUT("/questions/:id", questionController.Update)
+		l.PUT("/chage_status", questionController.ChangeStatus)
+		l.DELETE("/questions/:id", questionController.Delete)
 	}
 }

@@ -36,7 +36,7 @@ func (qc *QuestionController) SearchedIndex(c *gin.Context) {
 }
 
 func (qc *QuestionController) UserQuestions(c *gin.Context) {
-	id, _ := strconv.Atoi(c.Param("user-id"))
+	id, _ := strconv.Atoi(c.Param("id"))
 	questions := qc.Repository.FindByUser(id)
 	c.JSON(http.StatusOK, questions)
 }
