@@ -7,7 +7,7 @@
           <textarea v-model="profile.description" placeholder="自己紹介をしよう(Write your profile)"></textarea>
           <div class="subject">
             <label v-for="(value, id) in subjects" :key="id">
-              <input v-model="profile.subject" :value="value" class="with-gap" name="group1" type="radio"  />
+              <input v-model="profile.subject" :value="value" class="with-gap" name="group3" type="radio"  />
               <span>{{value}}</span>
             </label>
           </div>
