@@ -55,7 +55,7 @@ func (qc *QuestionController) Show(c *gin.Context) {
 
 func (qc *QuestionController) Create(c *gin.Context) {
 	title := c.PostForm("title")
-	content := c.PostForm("contetnt")
+	content := c.PostForm("content")
 	about := c.PostForm("about")
 	userID := middleware.GetSession(c)
 	if title == "" || content == "" || about == "" {

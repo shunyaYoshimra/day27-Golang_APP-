@@ -10,6 +10,9 @@ import Profile from "../components/Profile.vue";
 import EditProfile from "../components/EditProfile.vue";
 import NewContact from "../components/NewContact.vue";
 import Start from "../components/Start.vue";
+import NewQuestion from "../components/NewQuestion.vue";
+import Questions from "../components/Questions.vue";
+import Question from "../components/Question.vue";
 
 Vue.use(Router);
 
@@ -23,12 +26,15 @@ const routes = [
   { path: "/profiles/edit", component: EditProfile },
   { path: "/contacts/new", component: NewContact },
   { path: "/start", component: Start },
-]
+  { path: "/questions/new", component: NewQuestion },
+  { path: "/questions", component: Questions },
+  { path: "/question/:id", name: "question", component: Question },
+];
 
 const router = new Router({
   // mode: "history",
   routes
-})
+});
 
 router.beforeEach((to, from, next) => {
   axios.get("/api/session_check").then((res) => {
@@ -46,6 +52,6 @@ router.beforeEach((to, from, next) => {
       }
     }
   })
-})
+});
 
 export default router;

@@ -45,7 +45,7 @@ func (qr *QuestionRepository) Update(question entity.Question, title, content st
 }
 
 func (qr *QuestionRepository) ChangeStatus(question entity.Question) (err error) {
-	err = qr.Conn.Model(&question).Update(entity.Question{Status: false}).Error
+	err = qr.Conn.Model(&question).Update(entity.Question{Status: true}).Error
 	return
 }
 

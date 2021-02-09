@@ -56,7 +56,7 @@ func NewRouter(g *gin.RouterGroup) {
 		l.GET("/searched_questions", questionController.SearchedIndex)
 		l.POST("/questions", questionController.Create)
 		l.PUT("/questions/:id", questionController.Update)
-		l.PUT("/chage_status", questionController.ChangeStatus)
+		l.PUT("/change_status/:id", questionController.ChangeStatus)
 		l.DELETE("/questions/:id", questionController.Delete)
 	}
 }
