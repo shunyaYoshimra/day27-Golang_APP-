@@ -54,8 +54,8 @@ func (ac *AnswerController) Create(c *gin.Context) {
 
 func (ac *AnswerController) Update(c *gin.Context) {
 	content := c.PostForm("content")
-	answerID, _ := strconv.Atoi(c.Param("answerID"))
-	questionID, _ := strconv.Atoi(c.Param("questionID"))
+	answerID, _ := strconv.Atoi(c.PostForm("answerID"))
+	questionID, _ := strconv.Atoi(c.PostForm("questionID"))
 	if answer, err := ac.Repository.FindByID(answerID); err != nil {
 		res := response.NotFound("回答が見つかりませんでした(Answer was not found)")
 		c.JSON(res.Status, res)

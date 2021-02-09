@@ -14,6 +14,7 @@ func NewRouter(g *gin.RouterGroup) {
 	abroadController := controllers.NewAbroadController()
 	occupationController := controllers.NewOccupationController()
 	questionController := controllers.NewQuestionController()
+	answerController := controllers.NewAnswerController()
 	{
 		g.POST("/signup", userController.Signup)
 		g.POST("/login", sessionController.Login)
@@ -58,5 +59,9 @@ func NewRouter(g *gin.RouterGroup) {
 		l.PUT("/questions/:id", questionController.Update)
 		l.PUT("/change_status/:id", questionController.ChangeStatus)
 		l.DELETE("/questions/:id", questionController.Delete)
+		// routes for answer controller
+		l.GET("/answers/:id", answerController.Index)
+		l.POST("/answers/:id", answerController.Create)
+		l.PUT("/answers", answerController.Update)
 	}
 }
