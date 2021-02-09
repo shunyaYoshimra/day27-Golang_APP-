@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -31,6 +32,9 @@ func (qc *QuestionController) Index(c *gin.Context) {
 
 func (qc *QuestionController) SearchedIndex(c *gin.Context) {
 	about := c.Param("about")
+	fmt.Println("-------")
+	fmt.Println(about)
+	fmt.Println("-------")
 	questions := qc.Repository.FindByAbout(about)
 	c.JSON(http.StatusOK, questions)
 }

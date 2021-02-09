@@ -51,7 +51,7 @@ export default {
     SearchByAbout() {
       this.questions = [];
       axios
-        .get(`/api/v1/questions/search/${this.about}`)
+        .get(`/api/searched_questions/${this.about}`)
         .then(res => {
           for (let i = 0; i < res.data.length; i++) {
             this.questions.push(res.data[i]);
