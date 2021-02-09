@@ -13,7 +13,7 @@
         </template>
       </span>
     </div>
-    <!-- <div class="answers-wrapper">
+    <div class="answers-wrapper">
       <small>回答(answers)</small>
       <hr />
       <div class="answers" v-for="(answer, id) in answers" :key="id">
@@ -33,8 +33,8 @@
           <small>{{answer.created_at}}</small>
         </div>
       </div>
-    </div> -->
-    <!-- <template v-if="!question.status">
+    </div> 
+    <template v-if="!question.status">
       <div class="answer-form">
         <hr />
         <small>質問に回答してみましょう。(Answer this question)</small>
@@ -42,9 +42,9 @@
         <textarea v-model="content"></textarea>
         <button @click="createAnswer()" class="btn grey lighten-1">answer</button>
       </div>
-    </template> -->
+    </template>
   </div>
-</template>
+</template> 
 
 <script>
 import axios from "axios";
@@ -70,44 +70,44 @@ export default {
       });
     });
     // // get answers
-    // axios.get(`/api/v1/answers/index/${this.$route.params.id}`).then(res => {
-    //   console.log(res.data);
-    //   for (let i = 0; i < res.data.length; i++) {
-    //     this.answers.push(res.data[i]);
-    //   }
-    // });
+    axios.get(`/api/answers/${this.$route.params.id}`).then(res => {
+      console.log(res.data);
+      for (let i = 0; i < res.data.length; i++) {
+        this.answers.push(res.data[i]);
+      }
+    });
     // get me
     axios.get("/api/get_me").then(res => {
       this.me = res.data.data;
     });
   },
   methods: {
-    // createAnswer(content) {
-    //   const params = new URLSearchParams();
-    //   params.append("content", this.content);
-    //   axios
-    //     .post(`/api/v1/answers/create/${this.question.id}`, params)
-    //     .then(res => {
-    //       this.answers.unshift(res.data);
-    //     })
-    //     .catch(err => {
-    //       this.err = err.response.message;
-    //     });
-    //   this.content = "";
-    // },
-    // updateAnswer(editContent, answerID, questionID) {
-    //   this.answers = [];
-    //   const params = new URLSearchParams();
-    //   params.append("content", editContent);
-    //   params.append("answerID", answerID);
-    //   params.append("questionID", questionID);
-    //   axios.put("/api/v1/answers/update", params).then(res => {
-    //     for (let i = 0; i < res.data.length; i++) {
-    //       this.answers.push(res.data[i]);
-    //     }
-    //   });
-    //   this.editNum = false;
-    // },
+    createAnswer(content) {
+      const params = new URLSearchParams();
+      params.append("content", this.content);
+      axios
+        .post(`/api/answers/${this.question.id}`, params)
+        .then(res => {
+          this.answers.unshift(res.data.data);
+        })
+        .catch(err => {
+          this.err = err.response.message;
+        });
+      this.content = "";
+    },
+    updateAnswer(editContent, answerID, questionID) {
+      this.answers = [];
+      const params = new URLSearchParams();
+      params.append("content", editContent);
+      params.append("answerID", answerID);
+      params.append("questionID", questionID);
+      axios.put("/api/answers", params).then(res => {
+        for (let i = 0; i < res.data.length; i++) {
+          this.answers.push(res.data[i]);
+        }
+      });
+      this.editNum = false;
+    },
     finishQuestion() {
       if (
         confirm(
