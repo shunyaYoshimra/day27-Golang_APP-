@@ -15,6 +15,14 @@ func BadRequest(message string) Error {
 	return response
 }
 
+func Forbidden(message string) Error {
+	response := Error{
+		Status:  http.StatusForbidden,
+		Message: message,
+	}
+	return response
+}
+
 func NotFound(message string) Error {
 	response := Error{
 		Status:  http.StatusNotFound,

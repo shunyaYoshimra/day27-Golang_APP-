@@ -15,6 +15,7 @@ func NewRouter(g *gin.RouterGroup) {
 	occupationController := controllers.NewOccupationController()
 	questionController := controllers.NewQuestionController()
 	answerController := controllers.NewAnswerController()
+	postController := controllers.NewPostController()
 	{
 		g.POST("/signup", userController.Signup)
 		g.POST("/login", sessionController.Login)
@@ -63,5 +64,12 @@ func NewRouter(g *gin.RouterGroup) {
 		l.GET("/answers/:id", answerController.Index)
 		l.POST("/answers/:id", answerController.Create)
 		l.PUT("/answers", answerController.Update)
+		// routes for post controller
+		l.GET("/posts", postController.Index)
+		l.GET("/posts/:id", postController.UserPosts)
+		l.GET("searched_posts/:keyword", postController.SearchedIndex)
+		l.GET("post/:id", postController.Show)
+		l.POST("posts", postController.Create)
+		l.DELETE("/posts/:id", postController.Delete)
 	}
 }

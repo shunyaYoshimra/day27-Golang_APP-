@@ -39,17 +39,17 @@ func (pr *PostRepository) PostsByKeyword(keyword string) (posts []entity.Post) {
 	return
 }
 
-func (pr *PostRepository) FindByID(id int) (post []entity.Post, err error) {
+func (pr *PostRepository) FindByID(id int) (post entity.Post, err error) {
 	err = pr.Conn.First(&post, id).Error
 	return
 }
 
-func (pr *PostRepository) Create(post *[]entity.Post) (err error) {
+func (pr *PostRepository) Create(post *entity.Post) (err error) {
 	err = pr.Conn.Create(post).Error
 	return
 }
 
-func (pr *PostRepository) Delete(post []entity.Post) (err error) {
+func (pr *PostRepository) Delete(post entity.Post) (err error) {
 	err = pr.Conn.Delete(&post).Error
 	return
 }
@@ -61,7 +61,12 @@ func (ir *ImageRepository) RetrieveImages() (images []entity.Image) {
 	return
 }
 
-func (ir *ImageRepository) Create(image *[]entity.Image) (err error) {
+func (ir *ImageRepository) ImagesByPost(id int) (images []entity.Image) {
+	ir.Conn.Where("post_id = ?", id).Order("created_at desc").Find(&images)
+	return
+}
+
+func (ir *ImageRepository) Create(image *entity.Image) (err error) {
 	err = ir.Conn.Create(image).Error
 	return
 }
