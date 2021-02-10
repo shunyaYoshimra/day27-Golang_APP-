@@ -267,7 +267,8 @@ export default {
 }
 @media (max-width: 480px) {
   #profile {
-    width: 100%;
+    width: 98%;
+    margin: auto;
   }
 }
 </style>

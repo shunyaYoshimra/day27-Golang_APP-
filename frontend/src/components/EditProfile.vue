@@ -370,7 +370,8 @@ export default {
           width: 350px;
         }
       }
-      width: 100%;
+      width: 98%;
+      margin: auto;
       textarea {
         width: 350px;
       }

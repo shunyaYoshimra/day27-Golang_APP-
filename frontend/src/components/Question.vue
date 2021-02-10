@@ -205,6 +205,10 @@ export default {
         display: block;
       }
     }
+    .answer-form {
+      width: 98%;
+      bottom: 40px;
+    }
   }
 }
 </style>

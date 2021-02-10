@@ -4,16 +4,21 @@
     <div class="main">
       <router-view></router-view>
     </div>
+    <template v-if="this.width < 500">
+      <MobileFooter></MobileFooter>
+    </template>
   </div>
 </template>
 
 <script>
-import Header from './components/shared/Header.vue'
-import MobileHeader from "./components/shared/MobileHeader.vue"
+import Header from './components/shared/Header.vue';
+import MobileHeader from "./components/shared/MobileHeader.vue";
+import MobileFooter from "./components/shared/MobileFooter.vue";
 export default {
   components: {
     Header,
-    MobileHeader
+    MobileHeader,
+    MobileFooter,
   },
   data() {
     return {
@@ -28,18 +33,23 @@ export default {
       } else {
         return  MobileHeader
       }
-    }
+    },
   }
 }
 </script>
 
 <style lang="scss">
-.main {
-  margin-top: 100px;
+#app {
+  width: 100%;
+  .main {
+    margin-top: 100px;
+  }
 }
 @media (max-width: 480px) {
-  .main{
-    margin-top: 40px;
+  #app {
+    .main{
+      margin-top: 40px;
+    }
   }
 }
 </style>
