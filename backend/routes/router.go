@@ -16,6 +16,7 @@ func NewRouter(g *gin.RouterGroup) {
 	questionController := controllers.NewQuestionController()
 	answerController := controllers.NewAnswerController()
 	postController := controllers.NewPostController()
+	favoriteController := controllers.NewFavoriteController()
 	{
 		g.POST("/signup", userController.Signup)
 		g.POST("/login", sessionController.Login)
@@ -72,5 +73,9 @@ func NewRouter(g *gin.RouterGroup) {
 		l.GET("/images/:id", postController.ImagesOfPost)
 		l.POST("/posts/:tags", postController.Create)
 		l.DELETE("/posts/:id", postController.Delete)
+		// routes for favorite controller
+		l.GET("/favorites", favoriteController.MyFavorites)
+		l.POST("/favorites/:id", favoriteController.Create)
+		l.DELETE("/favorites/:id", favoriteController.Delete)
 	}
 }

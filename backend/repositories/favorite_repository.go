@@ -24,9 +24,8 @@ func (fr *FavoriteRepository) FavroitesOfUser(id int) (favorites []entity.Favori
 	return
 }
 
-func (fr *FavoriteRepository) CheckUnique(postID, userID int) (err error) {
-	var f entity.Favorite
-	err = fr.Conn.Where("post_id = ? AND user_id = ?", postID, userID).First(&f).Error
+func (fr *FavoriteRepository) CheckUnique(postID, userID int) (favorite entity.Favorite, err error) {
+	err = fr.Conn.Where("post_id = ? AND user_id = ?", postID, userID).First(&favorite).Error
 	return
 }
 
