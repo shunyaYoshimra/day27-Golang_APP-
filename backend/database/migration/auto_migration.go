@@ -16,5 +16,6 @@ func AutoMigration(conn *gorm.DB) {
 		entity.Answer{},
 		entity.Post{},
 		entity.Image{},
+		entity.Favorite{},
 	)
 }
