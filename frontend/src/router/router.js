@@ -13,6 +13,8 @@ import Start from "../components/Start.vue";
 import NewQuestion from "../components/NewQuestion.vue";
 import Questions from "../components/Questions.vue";
 import Question from "../components/Question.vue";
+import NewPost from "../components/NewPost.vue";
+import Posts from "../components/Posts.vue";
 
 Vue.use(Router);
 
@@ -29,6 +31,8 @@ const routes = [
   { path: "/questions/new", component: NewQuestion },
   { path: "/questions", component: Questions },
   { path: "/question/:id", name: "question", component: Question },
+  { path: "/posts/new", component: NewPost },
+  { path: "/posts", component: Posts }
 ];
 
 const router = new Router({

@@ -11,7 +11,7 @@
       <!-- Dropdown Structure -->
       <ul id="dropdown1" class="dropdown-content">
         <li class="t">
-          <router-link class="test" to="/">Study Abroad</router-link>
+          <router-link class="test" to="/posts">Study Abroad</router-link>
         </li>
         <li class="t">
           <router-link class="test" to="/">Job Seeking</router-link>
@@ -86,7 +86,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .header {
   position: fixed;
   top: 0;

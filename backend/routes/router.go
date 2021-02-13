@@ -67,9 +67,10 @@ func NewRouter(g *gin.RouterGroup) {
 		// routes for post controller
 		l.GET("/posts", postController.Index)
 		l.GET("/posts/:id", postController.UserPosts)
-		l.GET("searched_posts/:keyword", postController.SearchedIndex)
-		l.GET("post/:id", postController.Show)
-		l.POST("posts", postController.Create)
+		l.GET("/searched_posts/:keyword", postController.SearchedIndex)
+		l.GET("/post/:id", postController.Show)
+		l.GET("/images/:id", postController.ImagesOfPost)
+		l.POST("/posts/:tags", postController.Create)
 		l.DELETE("/posts/:id", postController.Delete)
 	}
 }

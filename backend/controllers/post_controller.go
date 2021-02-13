@@ -15,6 +15,11 @@ import (
 	"github.com/shunyaYoshimra/day27/backend/repositories"
 )
 
+type PostResponse struct {
+	Post   entity.Post    `json:"post"`
+	Images []entity.Image `json:"images"`
+}
+
 type PostController struct {
 	PostRepository  repositories.PostRepository
 	ImageRepository repositories.ImageRepository
@@ -28,12 +33,27 @@ func NewPostController() PostController {
 }
 
 func (pc *PostController) Index(c *gin.Context) {
+	var postResponse []PostResponse
+	var eachResponse PostResponse
 	posts := pc.PostRepository.RetrievePosts()
-	images := pc.ImageRepository.RetrieveImages()
-	c.JSON(http.StatusOK, gin.H{
-		"posts":  posts,
-		"images": images,
-	})
+	for _, post := range posts {
+		images := pc.ImageRepository.ImagesByPost(post.ID)
+		eachResponse = PostResponse{
+			Post:   post,
+			Images: images,
+		}
+		postResponse = append(postResponse, eachResponse)
+	}
+	fmt.Println("--------")
+	fmt.Println(postResponse)
+	fmt.Println("--------")
+	c.JSON(http.StatusOK, postResponse)
+}
+
+func (pc *PostController) ImagesOfPost(c *gin.Context) {
+	id, _ := strconv.Atoi(c.Param("id"))
+	images := pc.ImageRepository.ImagesByPost(id)
+	c.JSON(http.StatusOK, images)
 }
 
 func (pc *PostController) UserPosts(c *gin.Context) {
@@ -82,8 +102,13 @@ func (pc *PostController) Show(c *gin.Context) {
 func (pc *PostController) Create(c *gin.Context) {
 	form, _ := c.MultipartForm()
 	content := c.PostForm("content")
-	tags := c.PostForm("tags")
+	tags := c.Param("tags")
 	time := c.PostForm("time")
+	fmt.Println("------------")
+	fmt.Println(content)
+	fmt.Println(tags)
+	fmt.Println(time)
+	fmt.Println("------------")
 	userID := middleware.GetSession(c)
 	if content == "" {
 		res := response.BadRequest("内容は必ず記入してください(Content should be filled in)")
@@ -95,15 +120,15 @@ func (pc *PostController) Create(c *gin.Context) {
 			UserID:  userID,
 		}
 		if err := pc.PostRepository.Create(&post); err != nil {
-			res := response.BadRequest("予期せぬエラーが発生しました(An unexpected error has occured)")
+			res := response.BadRequest("予期せぬエラーが発生しました1(An unexpected error has occured)")
 			c.JSON(res.Status, res)
 		} else {
 			files := form.File["file"]
 			if files != nil {
 				for n, file := range files {
 					id := strconv.Itoa(n)
-					if err := c.SaveUploadedFile(file, "frontend/dist/img/"+time+"_"+id+".png"); err != nil {
-						res := response.BadRequest("予期せぬエラーが発生しました(An unexpected error has occured)")
+					if err := c.SaveUploadedFile(file, "../frontend/dist/img/"+time+"_"+id+".png"); err != nil {
+						res := response.BadRequest("予期せぬエラーが発生しました2(An unexpected error has occured)")
 						c.JSON(res.Status, res)
 					} else {
 						image := entity.Image{
@@ -112,10 +137,7 @@ func (pc *PostController) Create(c *gin.Context) {
 							PostID:   post.ID,
 						}
 						if err := pc.ImageRepository.Create(&image); err != nil {
-							res := response.BadRequest("予期せぬエラーが発生しました(An unexpected error has occured)")
-							c.JSON(res.Status, res)
-						} else {
-							res := response.SuccessResponse("")
+							res := response.BadRequest("予期せぬエラーが発生しました3(An unexpected error has occured)")
 							c.JSON(res.Status, res)
 						}
 					}
@@ -123,6 +145,8 @@ func (pc *PostController) Create(c *gin.Context) {
 			}
 		}
 	}
+	res := response.RedirectResponse("", "/app/#/posts")
+	c.Redirect(res.Status, res.Path)
 }
 
 func (pc *PostController) Delete(c *gin.Context) {
@@ -136,8 +160,16 @@ func (pc *PostController) Delete(c *gin.Context) {
 		c.JSON(res.Status, res)
 	} else {
 		images := pc.ImageRepository.ImagesByPost(post.ID)
+		if err := pc.PostRepository.Delete(post); err != nil {
+			res := response.BadRequest("予期せぬエラーが発生しました3(An unexpected error has occured)")
+			c.JSON(res.Status, res)
+		}
 		for _, image := range images {
-			os.Remove(fmt.Sprintf("frontend/dist/img/%s", image.FileName))
+			os.Remove(fmt.Sprintf("../frontend/dist/img/%s", image.FileName))
+			if err := pc.ImageRepository.Delete(image); err != nil {
+				res := response.BadRequest("予期せぬエラーが発生しました3(An unexpected error has occured)")
+				c.JSON(res.Status, res)
+			}
 		}
 	}
 	res := response.SuccessResponse("")

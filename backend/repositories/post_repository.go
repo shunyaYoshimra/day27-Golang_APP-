@@ -57,7 +57,7 @@ func (pr *PostRepository) Delete(post entity.Post) (err error) {
 // functions for ImageRepository
 
 func (ir *ImageRepository) RetrieveImages() (images []entity.Image) {
-	ir.Conn.Order("crated_at desc").Find(&images)
+	ir.Conn.Order("created_at desc").Find(&images)
 	return
 }
 
@@ -68,5 +68,10 @@ func (ir *ImageRepository) ImagesByPost(id int) (images []entity.Image) {
 
 func (ir *ImageRepository) Create(image *entity.Image) (err error) {
 	err = ir.Conn.Create(image).Error
+	return
+}
+
+func (ir *ImageRepository) Delete(image entity.Image) (err error) {
+	err = ir.Conn.Delete(&image).Error
 	return
 }
