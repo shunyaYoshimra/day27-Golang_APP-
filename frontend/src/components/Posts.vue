@@ -20,6 +20,14 @@
             <template v-if="post.post.user_id === me.id">
               <i @click="deletePost(post.post.id)" class="material-icons grey-text lighten-2">delete</i>
             </template>
+            <template v-if="myFavorites.includes(post.post.id)">
+              <span @click="DeleteFavorite(post.post.id)" class="green-text lighten-2">
+                <i class="material-icons">check</i>checked!
+              </span>
+            </template>
+            <template v-else>
+              <i @click="favoritePost(post.post.id)" class="material-icons grey-text lighten-2">check</i>
+            </template>
           </div>
           <p>{{post.post.content}}</p>
           <small>
@@ -67,6 +75,7 @@ export default {
     return {
       me: {},
       posts: [],
+      myFavorites: [],
       abroads: [],
       users: [],
       imagePath: "/dist/img/",
@@ -140,6 +149,12 @@ export default {
         this.abroads.push(res.data[i]);
       }
     })
+    // get favorites
+    axios.get("/api/favorites").then((res) => {
+      for (let i = 0; i < res.data.length; i ++) {
+        this.myFavorites.push(res.data[i].post_id)
+      }
+    })
   },
   updated() {
     $(document).ready(function(){
@@ -156,6 +171,16 @@ export default {
         axios.delete(`/api/posts/${id}`)
         this.deletedID.push(id);
       }
+    },
+    favoritePost(id) {
+      axios.post(`/api/favorites/${id}`).then((res) => {
+        this.myFavorites.push(res.data.data.post_id)
+      });
+    },
+    DeleteFavorite(id) {
+      axios.delete(`/api/favorites/${id}`).then((res) => {
+        this.myFavorites = this.myFavorites.filter(n => n !== id);
+      })
     }
   },
 }
