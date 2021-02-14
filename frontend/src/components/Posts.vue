@@ -248,9 +248,7 @@ export default {
         padding-top: 10px;
       }
       .more-images:hover {
-        width: 65px;
-        height: 65px;
-        padding-top: 11px;
+        opacity: 0.4;
       }
     }
 
