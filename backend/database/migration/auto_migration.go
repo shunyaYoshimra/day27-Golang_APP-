@@ -17,5 +17,9 @@ func AutoMigration(conn *gorm.DB) {
 		entity.Post{},
 		entity.Image{},
 		entity.Favorite{},
+		entity.Article{},
+		entity.ArticleLine{},
+		entity.BoldNumber{},
+		entity.LinkNumber{},
 	)
 }
