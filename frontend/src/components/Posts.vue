@@ -78,7 +78,7 @@ export default {
       myFavorites: [],
       abroads: [],
       users: [],
-      imagePath: "/dist/img/",
+      imagePath: "/src/img/",
       imageNum: 0,
       modalNum: -1,
       deletedID: [],
@@ -321,6 +321,38 @@ export default {
         height: 400px;
         object-fit: cover;
         object-position: 50% 50%;
+      }
+    }
+  }
+}
+@media (max-width: 480px) {
+  #posts {
+    width: 98%;
+    margin: auto;
+    margin-bottom: 60px;
+    .card {
+      .card-image {
+        img {
+          height: 300px;
+        }
+      }
+      .images-modal {
+        .close-modal {
+          margin-left: 270px;
+        }
+        .left, .right {
+          top: 300px;
+        }
+        .left {
+          margin-left: 10px;
+        }
+        .right {
+          margin-left: 265px;
+        }
+        img {
+          width: 300px;
+          height: 300px;
+        }
       }
     }
   }
