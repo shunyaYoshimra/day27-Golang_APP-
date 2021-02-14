@@ -17,6 +17,7 @@ func NewRouter(g *gin.RouterGroup) {
 	answerController := controllers.NewAnswerController()
 	postController := controllers.NewPostController()
 	favoriteController := controllers.NewFavoriteController()
+	articleController := controllers.NewArticleController()
 	{
 		g.POST("/signup", userController.Signup)
 		g.POST("/login", sessionController.Login)
@@ -77,5 +78,12 @@ func NewRouter(g *gin.RouterGroup) {
 		l.GET("/favorites", favoriteController.MyFavorites)
 		l.POST("/favorites/:id", favoriteController.Create)
 		l.DELETE("/favorites/:id", favoriteController.Delete)
+		// routes for article controller
+		l.GET("/articles", articleController.Index)
+		l.GET("/articles/:id", articleController.UserArticles)
+		l.GET("/article/:id", articleController.Show)
+		l.POST("/articles", articleController.Create)
+		l.PUT("/articles/:id", articleController.Update)
+		l.DELETE("/articles/:id", articleController.Delete)
 	}
 }

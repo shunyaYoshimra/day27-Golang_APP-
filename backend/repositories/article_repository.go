@@ -43,12 +43,12 @@ func (ar *ArticleRepository) RetrieveArticles() (articles []entity.Article) {
 	return
 }
 
-func (ar *ArticleLineRepository) ArticlesOfUser(id int) (articles []entity.Article) {
+func (ar *ArticleRepository) ArticlesOfUser(id int) (articles []entity.Article) {
 	ar.Conn.Where("user_id = ?", id).Order("created_at").Find(&articles)
 	return
 }
 
-func (ar *ArticleLineRepository) FindByID(id int) (article entity.Article, err error) {
+func (ar *ArticleRepository) FindByID(id int) (article entity.Article, err error) {
 	err = ar.Conn.First(article, id).Error
 	return
 }
@@ -58,7 +58,7 @@ func (alr *ArticleLineRepository) ArticleLinesOfArticle(id int) (articleLines []
 	return
 }
 
-func (br *BoldNumberRepository) BoldNumbersOFArticle(id int) (boldNumbers []entity.BoldNumber) {
+func (br *BoldNumberRepository) BoldNumbersOfArticle(id int) (boldNumbers []entity.BoldNumber) {
 	br.Conn.Where("article_id = ?", id).Find(&boldNumbers)
 	return
 }
