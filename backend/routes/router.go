@@ -19,6 +19,7 @@ func NewRouter(g *gin.RouterGroup) {
 	postController := controllers.NewPostController()
 	favoriteController := controllers.NewFavoriteController()
 	articleController := controllers.NewArticleController()
+	checkController := controllers.NewCheckController()
 	// routes without login
 	{
 		g.POST("/signup", userController.Signup)
@@ -87,5 +88,9 @@ func NewRouter(g *gin.RouterGroup) {
 		l.POST("/articles", articleController.Create)
 		l.PUT("/articles/:id", articleController.Update)
 		l.DELETE("/articles/:id", articleController.Delete)
+		// routes for check controller
+		l.GET("/checks/:id", checkController.ChecksOfArticle)
+		l.POST("/checks", checkController.Create)
+		l.DELETE("/checks", checkController.Delete)
 	}
 }

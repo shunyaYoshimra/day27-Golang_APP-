@@ -29,12 +29,12 @@ func (cr *CheckRepository) CheckUnique(articleID, userID int) (check entity.Chec
 	return
 }
 
-func (cr *CheckRepository) Create(article *entity.Article) (err error) {
+func (cr *CheckRepository) Create(article *entity.Check) (err error) {
 	err = cr.Conn.Create(article).Error
 	return
 }
 
-func (cr *CheckRepository) Delete(article entity.Article) (err error) {
+func (cr *CheckRepository) Delete(article entity.Check) (err error) {
 	err = cr.Conn.Delete(&article).Error
 	return
 }
