@@ -4,7 +4,7 @@
       <div class="article-top">
         <div>
           <router-link class="link-to-profile" :to="'/profile/' + user.id">{{user.name}}</router-link>
-          <!-- <template v-if="checkedUserIds.includes(me.id)">
+          <template v-if="checkedUserIds.includes(me.id)">
             <span @click="deleteCheck()" class="check green-text lighten-2">
               <i class="material-icons">check</i>checked!
             </span>
@@ -13,7 +13,7 @@
             <span @click="checkArticle()" class="check grey-text lighten-2">
               <i class="material-icons">check</i>
             </span>
-          </template> -->
+          </template>
           <br>
           <small>{{article.created_at}}</small>
         </div>
@@ -172,11 +172,11 @@ export default {
         }
       })
       // get check IDs
-      // axios.get(`/api/v1/checks/${this.article.id}`).then((res) => {
-      //   for (let i = 0; i < res.data.length; i ++) {
-      //     this.checkedUserIds.push(res.data[i].user_id)
-      //   }
-      // })
+      axios.get(`/api/checks/${this.article.id}`).then((res) => {
+        for (let i = 0; i < res.data.length; i ++) {
+          this.checkedUserIds.push(res.data[i].user_id)
+        }
+      })
     })
     // get me
     axios.get("/api/get_me").then((res) => {
@@ -207,11 +207,11 @@ export default {
         }
       })
       // // get checked user's IDs
-      // axios.get(`/api/v1/checks/${this.article.id}`).then((res) => {
-      //   for (let i = 0; i < res.data.length; i ++) {
-      //     this.checkedUserIds.push(res.data[i].user_id)
-      //   }
-      // })
+      axios.get(`/api/checks/${this.article.id}`).then((res) => {
+        for (let i = 0; i < res.data.length; i ++) {
+          this.checkedUserIds.push(res.data[i].user_id)
+        }
+      })
     })
   },
     initData() {
@@ -242,16 +242,16 @@ export default {
         }
       }
     },
-    // checkArticle() {
-    //   axios.post(`/api/v1/checks/create/${this.article.id}`).then((res) => {
-    //     this.checkedUserIds.push(this.me.id)
-    //   })
-    // },
-    // deleteCheck() {
-    //   axios.delete(`/api/v1/checks/${this.article.id}`).then((res) => {
-    //     this.checkedUserIds = this.checkedUserIds.filter(n => n !== this.me.id)
-    //   })
-    // },
+    checkArticle() {
+      axios.post(`/api/checks/${this.article.id}`).then((res) => {
+        this.checkedUserIds.push(this.me.id)
+      })
+    },
+    deleteCheck() {
+      axios.delete(`/api/checks/${this.article.id}`).then((res) => {
+        this.checkedUserIds = this.checkedUserIds.filter(n => n !== this.me.id)
+      })
+    },
     deleteArticle() {
       if(confirm("本当にこの記事を削除しますか?(Are you sure to delete this article?)")) {
          axios.delete(`/api/articles/${this.article.id}`).then((res) => {

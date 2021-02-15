@@ -90,7 +90,7 @@ func NewRouter(g *gin.RouterGroup) {
 		l.DELETE("/articles/:id", articleController.Delete)
 		// routes for check controller
 		l.GET("/checks/:id", checkController.ChecksOfArticle)
-		l.POST("/checks", checkController.Create)
-		l.DELETE("/checks", checkController.Delete)
+		l.POST("/checks/:id", checkController.Create)
+		l.DELETE("/checks/:id", checkController.Delete)
 	}
 }
