@@ -21,5 +21,6 @@ func AutoMigration(conn *gorm.DB) {
 		entity.ArticleLine{},
 		entity.BoldNumber{},
 		entity.LinkNumber{},
+		entity.Check{},
 	)
 }
