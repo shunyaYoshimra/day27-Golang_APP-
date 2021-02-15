@@ -14,7 +14,7 @@
           <router-link class="test" to="/posts">Study Abroad</router-link>
         </li>
         <li class="t">
-          <router-link class="test" to="/">Job Seeking</router-link>
+          <router-link class="test" to="/articles">Job Seeking</router-link>
         </li>
         <li class="t">
           <router-link class="test" to="/questions">Questions</router-link>
