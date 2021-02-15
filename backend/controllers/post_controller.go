@@ -44,9 +44,6 @@ func (pc *PostController) Index(c *gin.Context) {
 		}
 		postResponse = append(postResponse, eachResponse)
 	}
-	fmt.Println("--------")
-	fmt.Println(postResponse)
-	fmt.Println("--------")
 	c.JSON(http.StatusOK, postResponse)
 }
 
@@ -71,17 +68,22 @@ func (pc *PostController) UserPosts(c *gin.Context) {
 }
 
 func (pc *PostController) SearchedIndex(c *gin.Context) {
-	keyword := c.Param("key-word")
+	var postResponse []PostResponse
+	var eachResponse PostResponse
+	keyword := c.Param("keyword")
+	fmt.Println("--------")
+	fmt.Println(keyword)
+	fmt.Println("--------")
 	posts := pc.PostRepository.PostsByKeyword(keyword)
-	var images []entity.Image
 	for _, post := range posts {
-		value := pc.ImageRepository.ImagesByPost(post.ID)
-		images = append(images, value...)
+		images := pc.ImageRepository.ImagesByPost(post.ID)
+		eachResponse = PostResponse{
+			Post:   post,
+			Images: images,
+		}
+		postResponse = append(postResponse, eachResponse)
 	}
-	c.JSON(http.StatusOK, gin.H{
-		"posts":  posts,
-		"images": images,
-	})
+	c.JSON(http.StatusOK, postResponse)
 }
 
 func (pc *PostController) Show(c *gin.Context) {

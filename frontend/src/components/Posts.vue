@@ -1,5 +1,11 @@
 <template>
   <div id="posts">
+    <div class="search-form">
+      <div>
+        <input type="text" placeholder="検索(search)" v-model="keyWord">
+        <button @click="searchPosts()" class="btn"><i class="material-icons">search</i></button>
+      </div>
+    </div>
     <div v-for="(post, id) in posts" :key="id">
       <span class="hide">{{user = userOfPost(post.post.user_id)}}</span>
       <span class="hide">{{country = countryOfPost(post.post.user_id)}}</span>
@@ -82,6 +88,7 @@ export default {
       imageNum: 0,
       modalNum: -1,
       deletedID: [],
+      keyWord: "",
     }
   },
   computed: {
@@ -181,7 +188,18 @@ export default {
       axios.delete(`/api/favorites/${id}`).then((res) => {
         this.myFavorites = this.myFavorites.filter(n => n !== id);
       })
-    }
+    },
+    searchPosts() {
+      if (this.keyWord !== "") {
+        this.posts = [];
+          axios.get(`/api/searched_posts/${this.keyWord}`).then((res) => {
+            console.log(res.data);
+            for (let i = 0; i < res.data.length; i ++) {
+              this.posts.push(res.data[i]);
+            }
+          })
+        }
+      }
   },
 }
 </script>

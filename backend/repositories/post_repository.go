@@ -35,7 +35,7 @@ func (pr *PostRepository) PostsByUser(id int) (posts []entity.Post) {
 }
 
 func (pr *PostRepository) PostsByKeyword(keyword string) (posts []entity.Post) {
-	pr.Conn.Where("keyword = ?", keyword).Order("created_at desc").Find(&posts)
+	pr.Conn.Where("tags LIKE ?", "%"+keyword+"%").Order("created_at desc").Find(&posts)
 	return
 }
 
