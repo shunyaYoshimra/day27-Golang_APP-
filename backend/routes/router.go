@@ -7,6 +7,7 @@ import (
 )
 
 func NewRouter(g *gin.RouterGroup) {
+	// init controllers
 	userController := controllers.NewUserController()
 	sessionController := controllers.NewSessionController()
 	profileController := controllers.NewProfileController()
@@ -18,6 +19,7 @@ func NewRouter(g *gin.RouterGroup) {
 	postController := controllers.NewPostController()
 	favoriteController := controllers.NewFavoriteController()
 	articleController := controllers.NewArticleController()
+	// routes without login
 	{
 		g.POST("/signup", userController.Signup)
 		g.POST("/login", sessionController.Login)

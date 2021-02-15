@@ -37,7 +37,7 @@ func (ac *ArticleController) Index(c *gin.Context) {
 }
 
 func (ac *ArticleController) UserArticles(c *gin.Context) {
-	id, _ := strconv.Atoi(c.Param("user-id"))
+	id, _ := strconv.Atoi(c.Param("id"))
 	articles := ac.ArticleRepository.ArticlesOfUser(id)
 	c.JSON(http.StatusOK, articles)
 }
@@ -115,9 +115,10 @@ func (ac *ArticleController) Create(c *gin.Context) {
 				}
 			}
 		}
+		res := response.SuccessResponse("")
+		res.Data = article
+		c.JSON(res.Status, res)
 	}
-	res := response.SuccessResponse("")
-	c.JSON(res.Status, res)
 }
 
 func (ac *ArticleController) Update(c *gin.Context) {

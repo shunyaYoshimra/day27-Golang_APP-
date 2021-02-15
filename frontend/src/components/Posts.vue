@@ -78,7 +78,7 @@ export default {
       myFavorites: [],
       abroads: [],
       users: [],
-      imagePath: "/src/img/",
+      imagePath: "/dist/img/",
       imageNum: 0,
       modalNum: -1,
       deletedID: [],

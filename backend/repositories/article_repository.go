@@ -44,12 +44,12 @@ func (ar *ArticleRepository) RetrieveArticles() (articles []entity.Article) {
 }
 
 func (ar *ArticleRepository) ArticlesOfUser(id int) (articles []entity.Article) {
-	ar.Conn.Where("user_id = ?", id).Order("created_at").Find(&articles)
+	ar.Conn.Where("user_id = ?", id).Order("created_at desc").Find(&articles)
 	return
 }
 
 func (ar *ArticleRepository) FindByID(id int) (article entity.Article, err error) {
-	err = ar.Conn.First(article, id).Error
+	err = ar.Conn.First(&article, id).Error
 	return
 }
 
