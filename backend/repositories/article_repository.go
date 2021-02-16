@@ -39,7 +39,7 @@ func NewLinkNumberRepository() LinkNumberRepository {
 }
 
 func (ar *ArticleRepository) RetrieveArticles() (articles []entity.Article) {
-	ar.Conn.Order("created_at").Find(&articles)
+	ar.Conn.Order("created_at desc").Find(&articles)
 	return
 }
 
