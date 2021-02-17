@@ -79,6 +79,7 @@ func NewRouter(g *gin.RouterGroup) {
 		l.DELETE("/posts/:id", postController.Delete)
 		// routes for favorite controller
 		l.GET("/favorites", favoriteController.MyFavorites)
+		l.GET("/favorites/:id", favoriteController.FavoritesOfUser)
 		l.POST("/favorites/:id", favoriteController.Create)
 		l.DELETE("/favorites/:id", favoriteController.Delete)
 		// routes for article controller
@@ -90,6 +91,7 @@ func NewRouter(g *gin.RouterGroup) {
 		l.DELETE("/articles/:id", articleController.Delete)
 		// routes for check controller
 		l.GET("/checks/:id", checkController.ChecksOfArticle)
+		l.GET("/user_checks/:id", checkController.ChecksOfUser)
 		l.POST("/checks/:id", checkController.Create)
 		l.DELETE("/checks/:id", checkController.Delete)
 	}

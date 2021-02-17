@@ -45,12 +45,49 @@
         <p class="description">{{occupation.description}}</p>
       </div>
     </template>
+    <div class="select-tags">
+      <hr class="above-line">
+      <div class="tags-wrapper">
+        <div class="each-tag" @click="componentID = 1">
+          <span>
+            <i class="material-icons">school</i><span class="tag-name">Study Abroad</span>
+          </span>
+        </div>
+        <div class="each-tag" @click="componentID = 2">
+          <span>
+             <i class="material-icons">work</i><span class="tag-name">Job Seeking</span>
+          </span>
+         </div>
+        <div class="each-tag" @click="componentID = 3">
+          <span>
+            <i class="material-icons">help_outline</i><span class="tag-name">Questions</span> 
+          </span>
+        </div>
+        <div class="each-tag" @click="componentID = 4">
+          <span>
+            <i class="material-icons">check</i><span class="tag-name">Check</span>
+          </span>
+        </div>
+      </div>
+      <hr class="bottom-line">
+    </div>
+    <component :is="whichComponent"></component>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import UserPosts from "./componentsInProfile/posts.vue";
+import UserArticle from "./componentsInProfile/articles.vue";
+import UserQuestions from "./componentsInProfile/questions.vue";
+import UserChecks from "./componentsInProfile/checks.vue";
 export default {
+  components: {
+    "user-posts": UserPosts,
+    "user-articles": UserArticle,
+    "user-questions": UserQuestions,
+    "user-checks": UserChecks,
+  },
   data() {
     return {
       me: {},
@@ -72,20 +109,20 @@ export default {
       this.fetchItems(to.params.id);
     }
   },
-  // computed: {
-  //   whichComponent: function() {
-  //     self = this;
-  //     if (this.componentID === 1) {
-  //       return "user-posts"
-  //     } else if (this.componentID === 2) {
-  //       return "user-articles"
-  //     } else if (this.componentID === 3) {
-  //       return "user-questions"
-  //     } else if (this.componentID === 4) {
-  //       return "user-checks"
-  //     }
-  //   }
-  // },
+  computed: {
+    whichComponent: function() {
+      self = this;
+      if (this.componentID === 1) {
+        return "user-posts"
+      } else if (this.componentID === 2) {
+        return "user-articles"
+      } else if (this.componentID === 3) {
+        return "user-questions"
+      } else if (this.componentID === 4) {
+        return "user-checks"
+      }
+    }
+  },
   mounted() {
     // get me
     axios.get("/api/get_me").then(res => {
@@ -269,6 +306,18 @@ export default {
   #profile {
     width: 98%;
     margin: auto;
+    margin-bottom: 60px;
+    .select-tags {
+      .tags-wrapper {
+        .each-tag {
+          span {
+            .tag-name {
+              display: none;
+            }
+          }
+        }
+      }
+    }
   }
 }
 </style>

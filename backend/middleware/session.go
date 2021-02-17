@@ -1,6 +1,8 @@
 package middleware
 
 import (
+	"net/http"
+
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
@@ -31,9 +33,9 @@ func SessionBool(c *gin.Context) {
 	session := sessions.Default(c)
 	sessionID := session.Get("userID")
 	if sessionID != nil {
-		c.JSON(200, true)
+		c.JSON(http.StatusOK, true)
 	} else {
-		c.JSON(200, false)
+		c.JSON(http.StatusUnauthorized, false)
 	}
 }
 
@@ -42,7 +44,7 @@ func SessionCheck() gin.HandlerFunc {
 		session := sessions.Default(c)
 		sessionID := session.Get("userID")
 		if sessionID == nil {
-			c.JSON(200, gin.H{
+			c.JSON(http.StatusUnauthorized, gin.H{
 				"message": "ログインしていません",
 			})
 			c.Abort()

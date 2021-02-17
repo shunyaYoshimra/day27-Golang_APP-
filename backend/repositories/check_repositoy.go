@@ -20,7 +20,7 @@ func (cr *CheckRepository) ChecksOfArticle(id int) (checks []entity.Check) {
 }
 
 func (cr *CheckRepository) ChecksOfUser(id int) (checks []entity.Check) {
-	cr.Conn.Where("user_id = ?", id).Find(&checks)
+	cr.Conn.Where("user_id = ?", id).Order("created_at desc").Find(&checks)
 	return
 }
 

@@ -4,7 +4,7 @@
       <span class="black-text">
         <router-link class="user-link" :to="{name: 'profile', params: {id: user.id}}">{{user.name}}</router-link>
         <p>{{question.content}}</p>
-        <time>{{question.created_at}}</time>
+        <time>{{question.created_at | moment("MMMM Do YYYY")}}</time>
         <template v-if="question.status">
           <span>解決済み</span>
         </template>
@@ -30,7 +30,7 @@
               <i class="material-icons">edit</i>編集
             </span>
           </template>
-          <small>{{answer.created_at}}</small>
+          <small>{{answer.created_at | moment("MMMM Do YYYY")}}</small>
         </div>
       </div>
     </div> 
@@ -48,6 +48,7 @@
 
 <script>
 import axios from "axios";
+import moment from "moment";
 export default {
   data() {
     return {
@@ -59,6 +60,11 @@ export default {
       editNum: "",
       me: {}
     };
+  },
+  filters: {
+    moment(value, format) {
+     return moment(value).format(format); 
+    }
   },
   mounted() {
     // get question

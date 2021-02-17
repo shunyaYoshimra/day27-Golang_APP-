@@ -20,13 +20,13 @@ func InitTestUserIndex() *httptest.ResponseRecorder {
 	app.CreateTest(r)
 
 	userRepository := repositories.UserRepository{Conn: database.GetDB().Table("users")}
-	userRepository.Create(entity.User{
+	userRepository.Create(&entity.User{
 		ID:       1,
 		Name:     "shunya",
 		Email:    "maoorgri1015@gmail.com",
 		Password: "password",
 	})
-	userRepository.Create(entity.User{
+	userRepository.Create(&entity.User{
 		ID:       2,
 		Name:     "saya",
 		Email:    "saya@gmail.com",

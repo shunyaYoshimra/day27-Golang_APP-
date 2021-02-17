@@ -36,6 +36,7 @@ func (sc *SessionController) Login(c *gin.Context) {
 				id := user.ID
 				middleware.Login(c, id)
 				res := response.SuccessResponse("")
+				res.Data = id
 				c.JSON(res.Status, res)
 			}
 		}

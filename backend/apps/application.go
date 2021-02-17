@@ -21,7 +21,7 @@ func (a Application) CreateApp(r *gin.Engine) {
 
 func (a Application) CreateTest(r *gin.Engine) {
 	configureTestDB()
-	configureAPIEndpoint(r)
+	configureTestAPIEndpoint(r)
 }
 
 func configureAppDB() {
@@ -49,7 +49,18 @@ func configureAPIEndpoint(r *gin.Engine) {
 	})
 }
 
+func configureTestAPIEndpoint(r *gin.Engine) {
+	g := r.Group("/api/test/")
+	routes.NewTestRouter(g)
+	r.NoRoute(func(c *gin.Context) {
+		c.JSON(http.StatusNotFound, gin.H{
+			"status":  http.StatusNotFound,
+			"message": "The page you are looking for dosen't exist",
+		})
+	})
+}
+
 func configureView(r *gin.Engine) {
-	r.Static("/dist", "../frontend/dist")
+	r.Static("/src", "../frontend/dist")
 	r.StaticFS("/app", http.Dir("../frontend/static"))
 }

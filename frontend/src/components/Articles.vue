@@ -7,7 +7,7 @@
           <span class="hide">{{occupation = occupationOfArticle(article.user_id)}}</span>
           <div class="top-wrapper">
             <span class="title">{{article.title}}</span><br>
-            <small>{{article.created_at}}</small>
+            <small>{{article.created_at | moment("MMMM Do YYYY")}}</small>
           </div>
           <hr>
           <span>{{user.name}}</span><br>
@@ -21,6 +21,7 @@
 
 <script>
 import axios from "axios";
+import moment from "moment";
 export default {
   data() {
     return {
@@ -28,6 +29,11 @@ export default {
       articles: [],
       users: [],
       occupations: [],
+    }
+  },
+  filters: {
+    moment(value, format) {
+     return moment(value).format(format); 
     }
   },
   mounted() {

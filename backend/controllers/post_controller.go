@@ -54,17 +54,19 @@ func (pc *PostController) ImagesOfPost(c *gin.Context) {
 }
 
 func (pc *PostController) UserPosts(c *gin.Context) {
+	var postResponse []PostResponse
+	var eachResponse PostResponse
 	id, _ := strconv.Atoi(c.Param("id"))
 	posts := pc.PostRepository.PostsByUser(id)
-	var images []entity.Image
 	for _, post := range posts {
-		value := pc.ImageRepository.ImagesByPost(post.ID)
-		images = append(images, value...)
+		images := pc.ImageRepository.ImagesByPost(post.ID)
+		eachResponse = PostResponse{
+			Post:   post,
+			Images: images,
+		}
+		postResponse = append(postResponse, eachResponse)
 	}
-	c.JSON(http.StatusOK, gin.H{
-		"posts":  posts,
-		"images": images,
-	})
+	c.JSON(http.StatusOK, postResponse)
 }
 
 func (pc *PostController) SearchedIndex(c *gin.Context) {
@@ -87,17 +89,20 @@ func (pc *PostController) SearchedIndex(c *gin.Context) {
 }
 
 func (pc *PostController) Show(c *gin.Context) {
+	var postResponse PostResponse
 	id, _ := strconv.Atoi(c.Param("id"))
 	if post, err := pc.PostRepository.FindByID(id); err != nil {
 		res := response.NotFound("投稿が見つかりませんでした(This post was not found)")
 		c.JSON(res.Status, res)
 	} else {
 		images := pc.ImageRepository.ImagesByPost(post.ID)
+		postResponse = PostResponse{
+			Post:   post,
+			Images: images,
+		}
 		res := response.SuccessResponse("")
-		c.JSON(res.Status, gin.H{
-			"post":   post,
-			"images": images,
-		})
+		res.Data = postResponse
+		c.JSON(res.Status, res)
 	}
 }
 

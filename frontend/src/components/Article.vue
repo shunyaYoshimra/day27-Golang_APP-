@@ -15,7 +15,7 @@
             </span>
           </template>
           <br>
-          <small>{{article.created_at}}</small>
+          <small>{{article.created_at | moment("MMMM Do YYYY")}}</small>
         </div>
         <template v-if="me.id === article.user_id">
           <div>
@@ -67,6 +67,7 @@
 
 <script>
 import axios from "axios";
+import moment from "moment";
 export default {
   data() {
     return {
@@ -78,7 +79,12 @@ export default {
       boldNumbers: [],
       linkNumbers: [],
       checkedUserIds: [],
-      editBool: false,
+      editBool: false,  
+    }
+  },
+  filters: {
+    moment(value, format) {
+     return moment(value).format(format); 
     }
   },
   watch: {

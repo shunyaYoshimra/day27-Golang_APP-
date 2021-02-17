@@ -21,13 +21,14 @@ func InitTestUserShow(id string) *httptest.ResponseRecorder {
 	app.CreateTest(r)
 
 	userRepository := repositories.UserRepository{Conn: database.GetDB().Table("users")}
-	userRepository.Create(entity.User{
+	userRepository.Create(&entity.User{
 		ID:       1,
 		Name:     "shunya",
 		Email:    "maoorgri1015@gmail.com",
 		Password: "password",
 	})
 	w := httptest.NewRecorder()
+
 	req, _ := http.NewRequest(http.MethodGet, "/api/user/"+id, nil)
 	req.Header.Set("Content-Type", "application/json")
 	r.ServeHTTP(w, req)
@@ -43,6 +44,7 @@ func TestUserShow(t *testing.T) {
 	t.Run("is should return 404 with invalid params url", func(t *testing.T) {
 		defer database.DropAllTable()
 		w := InitTestUserShow("2")
+		t.Log(w)
 		assert.Equal(t, http.StatusNotFound, w.Code)
 	})
 }

@@ -28,6 +28,12 @@ func (cc *CheckController) ChecksOfArticle(c *gin.Context) {
 	c.JSON(http.StatusOK, checks)
 }
 
+func (cc *CheckController) ChecksOfUser(c *gin.Context) {
+	id, _ := strconv.Atoi(c.Param("id"))
+	checks := cc.Repository.ChecksOfUser(id)
+	c.JSON(http.StatusOK, checks)
+}
+
 func (cc *CheckController) Create(c *gin.Context) {
 	articleID, _ := strconv.Atoi(c.Param("id"))
 	userID := middleware.GetSession(c)

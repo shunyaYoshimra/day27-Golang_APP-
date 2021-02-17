@@ -28,7 +28,7 @@ export default {
       err: "",
 
       email: "",
-      password: ""
+      password: "",
     };
   },
   methods: {
@@ -40,7 +40,7 @@ export default {
         .post("/api/login", params)
         .then(res => {
           console.log(res.data);
-          this.$router.go("/users");
+          this.$router.go("/");
         })
         .catch(err => {
           console.log(err.response);

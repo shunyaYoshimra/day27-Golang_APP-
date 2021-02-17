@@ -35,6 +35,7 @@
               <i @click="favoritePost(post.post.id)" class="material-icons grey-text lighten-2">check</i>
             </template>
           </div>
+          <small>{{post.post.created_at | moment("MMMM Do YYYY")}}</small>
           <p>{{post.post.content}}</p>
           <small>
             <i class="material-icons tiny">local_offer</i>
@@ -76,6 +77,7 @@
 
 <script>
 import axios from "axios";
+import moment from "moment";
 export default {
   data() {
     return {
@@ -84,11 +86,16 @@ export default {
       myFavorites: [],
       abroads: [],
       users: [],
-      imagePath: "/dist/img/",
+      imagePath: "/src/img/",
       imageNum: 0,
       modalNum: -1,
       deletedID: [],
       keyWord: "",
+    }
+  },
+  filters: {
+    moment(value, format) {
+     return moment(value).format(format); 
     }
   },
   computed: {

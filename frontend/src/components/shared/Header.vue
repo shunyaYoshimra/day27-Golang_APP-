@@ -1,7 +1,7 @@
 <template>
   <header class="header">
     <div>
-      <router-link to="/" class="logo" >Gaidai Chat Online</router-link>
+      <router-link :to="'/profile/' + this.me.id" class="logo" >Gaidai Chat Online</router-link>
     </div>
     <ul class="header-nav">
       <li class="dropdown-trigger" data-target="dropdown1">

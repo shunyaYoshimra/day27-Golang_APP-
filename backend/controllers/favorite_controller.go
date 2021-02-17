@@ -29,6 +29,12 @@ func (fc *FavoriteController) MyFavorites(c *gin.Context) {
 	c.JSON(http.StatusOK, favorites)
 }
 
+func (fc *FavoriteController) FavoritesOfUser(c *gin.Context) {
+	userID, _ := strconv.Atoi(c.Param("id"))
+	favorites := fc.Repository.FavroitesOfUser(userID)
+	c.JSON(http.StatusOK, favorites)
+}
+
 func (fc *FavoriteController) Create(c *gin.Context) {
 	postID, _ := strconv.Atoi(c.Param("id"))
 	userID := middleware.GetSession(c)
