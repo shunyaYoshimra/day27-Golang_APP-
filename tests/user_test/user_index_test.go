@@ -34,7 +34,7 @@ func InitTestUserIndex() *httptest.ResponseRecorder {
 	})
 
 	w := httptest.NewRecorder()
-	req, _ := http.NewRequest(http.MethodGet, "/api/users", nil)
+	req, _ := http.NewRequest(http.MethodGet, "/api/test/users", nil)
 	req.Header.Set("Content-Type", "application/json")
 	r.ServeHTTP(w, req)
 	return w

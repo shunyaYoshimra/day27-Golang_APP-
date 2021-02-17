@@ -29,7 +29,7 @@ func InitTestUserShow(id string) *httptest.ResponseRecorder {
 	})
 	w := httptest.NewRecorder()
 
-	req, _ := http.NewRequest(http.MethodGet, "/api/user/"+id, nil)
+	req, _ := http.NewRequest(http.MethodGet, "/api/test/user/"+id, nil)
 	req.Header.Set("Content-Type", "application/json")
 	r.ServeHTTP(w, req)
 	return w
