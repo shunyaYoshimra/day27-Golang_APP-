@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -55,6 +56,9 @@ func (uc *UserController) GetMe(c *gin.Context) {
 func (uc *UserController) Signup(c *gin.Context) {
 	var user entity.User
 	email := c.PostForm("email")
+	fmt.Println("-----------")
+	fmt.Println(email)
+	fmt.Println("-----------")
 	name := c.PostForm("name")
 	pass := c.PostForm("password")
 	if name == "" || email == "" || pass == "" {

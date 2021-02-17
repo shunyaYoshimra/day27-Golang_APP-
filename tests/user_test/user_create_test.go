@@ -21,7 +21,7 @@ func InitTestUserCreate(body map[string]interface{}) *httptest.ResponseRecorder 
 
 	w := httptest.NewRecorder()
 	b, _ := json.Marshal(body)
-	req, _ := http.NewRequest(http.MethodPost, "/api/users", strings.NewReader(string(b)))
+	req, _ := http.NewRequest(http.MethodPost, "/api/test/signup", strings.NewReader(string(b)))
 	req.Header.Set("Content-Type", "application/json")
 	r.ServeHTTP(w, req)
 	return w

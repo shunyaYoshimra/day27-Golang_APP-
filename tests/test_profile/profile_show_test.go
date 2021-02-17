@@ -1,4 +1,4 @@
-package user_test
+package test_profile
 
 import (
 	"net/http"
@@ -15,35 +15,35 @@ import (
 	"github.com/shunyaYoshimra/day27/backend/apps"
 )
 
-func InitTestUserShow(id string) *httptest.ResponseRecorder {
+func InitTestProfileShow(id string) *httptest.ResponseRecorder {
 	r := gin.Default()
 	app := new(apps.Application)
 	app.CreateTest(r)
 
-	userRepository := repositories.UserRepository{Conn: database.GetDB().Table("users")}
-	userRepository.Create(&entity.User{
-		ID:       1,
-		Name:     "shunya",
-		Email:    "maoorgri1015@gmail.com",
-		Password: "password",
+	profileRepository := repositories.ProfileRepository{Conn: database.GetDB().Table("profiles")}
+	profileRepository.Create(&entity.Profile{
+		ID:          1,
+		Description: "test description",
+		Subject:     "test subject",
+		UserID:      1,
 	})
-	w := httptest.NewRecorder()
 
-	req, _ := http.NewRequest(http.MethodGet, "/api/test/user/"+id, nil)
+	w := httptest.NewRecorder()
+	req, _ := http.NewRequest(http.MethodGet, "/api/test/profile/"+id, nil)
 	req.Header.Set("Content-Type", "application/json")
 	r.ServeHTTP(w, req)
 	return w
 }
 
-func TestUserShow(t *testing.T) {
+func TestProfileShow(t *testing.T) {
 	t.Run("it should return success", func(t *testing.T) {
 		defer database.DropAllTable()
-		w := InitTestUserShow("1")
+		w := InitTestProfileShow("1")
 		assert.Equal(t, http.StatusOK, w.Code)
 	})
 	t.Run("it should return 404 with invalid params url", func(t *testing.T) {
 		defer database.DropAllTable()
-		w := InitTestUserShow("2")
+		w := InitTestProfileShow("2")
 		t.Log(w)
 		assert.Equal(t, http.StatusNotFound, w.Code)
 	})
