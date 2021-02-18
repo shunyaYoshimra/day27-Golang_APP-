@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -56,34 +55,30 @@ func (uc *UserController) GetMe(c *gin.Context) {
 func (uc *UserController) Signup(c *gin.Context) {
 	var user entity.User
 	email := c.PostForm("email")
-	fmt.Println("-----------")
-	fmt.Println(email)
-	fmt.Println("-----------")
 	name := c.PostForm("name")
 	pass := c.PostForm("password")
+
 	if name == "" || email == "" || pass == "" {
 		res := response.BadRequest("全ての情報を入力してください(All information should be filled in.)")
 		c.JSON(res.Status, res)
+	} else if _, err := uc.Repository.FindByEmail(email); err == nil {
+		res := response.Conflict("このメールアドレスは既に登録されています(This e-mail has already been registered)")
+		c.JSON(res.Status, res)
 	} else {
-		if _, err := uc.Repository.FindByEmail(email); err == nil {
-			res := response.Conflict("このメールアドレスは既に登録されています(This e-mail has already been registered)")
+		passwordEncrypt, _ := middleware.PasswordEncrypt(pass)
+		user = entity.User{
+			Name:     name,
+			Email:    email,
+			Password: passwordEncrypt,
+		}
+		if err := uc.Repository.Create(&user); err != nil {
+			res := response.BadRequest("予期せぬエラーが発生しました(An unexpected error has occured)")
 			c.JSON(res.Status, res)
 		} else {
-			passwordEncrypt, _ := middleware.PasswordEncrypt(pass)
-			user = entity.User{
-				Name:     name,
-				Email:    email,
-				Password: passwordEncrypt,
-			}
-			if err := uc.Repository.Create(&user); err != nil {
-				res := response.BadRequest("予期せぬエラーが発生しました(An unexpected error has occured)")
-				c.JSON(res.Status, res)
-			} else {
-				userID := user.ID
-				middleware.Login(c, userID)
-				res := response.SuccessResponse("")
-				c.JSON(res.Status, res)
-			}
+			userID := user.ID
+			middleware.Login(c, userID)
+			res := response.SuccessResponse("")
+			c.JSON(res.Status, res)
 		}
 	}
 }

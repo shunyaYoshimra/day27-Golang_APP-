@@ -35,7 +35,7 @@ func SessionBool(c *gin.Context) {
 	if sessionID != nil {
 		c.JSON(http.StatusOK, true)
 	} else {
-		c.JSON(http.StatusUnauthorized, false)
+		c.JSON(http.StatusOK, false)
 	}
 }
 
