@@ -16,7 +16,7 @@ import (
 	"github.com/shunyaYoshimra/day27/backend/apps"
 )
 
-func InitTestUserCreate(name, email, pass string, duplicate bool) *httptest.ResponseRecorder {
+func InitTestUserCreate(values []string, duplicate bool) *httptest.ResponseRecorder {
 	r := gin.Default()
 	app := new(apps.Application)
 	app.CreateTest(r)
@@ -32,9 +32,9 @@ func InitTestUserCreate(name, email, pass string, duplicate bool) *httptest.Resp
 	}
 
 	form := url.Values{}
-	form.Add("name", name)
-	form.Add("email", email)
-	form.Add("password", pass)
+	form.Add("name", values[0])
+	form.Add("email", values[1])
+	form.Add("password", values[2])
 	form.Add("test", "test")
 	body := strings.NewReader(form.Encode())
 
@@ -48,18 +48,21 @@ func InitTestUserCreate(name, email, pass string, duplicate bool) *httptest.Resp
 func TestUserCreate(t *testing.T) {
 	t.Run("it should return success", func(t *testing.T) {
 		defer database.DropAllTable()
-		w := InitTestUserCreate("User Test", "test@gmail.com", "password", false)
+		values := []string{"User Test", "test@gmail.com", "password"}
+		w := InitTestUserCreate(values, false)
 		t.Log(w)
 		assert.Equal(t, http.StatusOK, w.Code)
 	})
 	t.Run("it should return 400 with invalid data", func(t *testing.T) {
 		defer database.DropAllTable()
-		w := InitTestUserCreate("", "", "", false)
+		values := []string{"", "", ""}
+		w := InitTestUserCreate(values, false)
 		assert.Equal(t, http.StatusBadRequest, w.Code)
 	})
 	t.Run("it should return 400 with duplicate email", func(t *testing.T) {
 		defer database.DropAllTable()
-		w := InitTestUserCreate("user Test", "duplicate@gmail.com", "password", true)
+		values := []string{"User Test", "duplicate@gmail.com", "password"}
+		w := InitTestUserCreate(values, true)
 		assert.Equal(t, http.StatusConflict, w.Code)
 	})
 }
