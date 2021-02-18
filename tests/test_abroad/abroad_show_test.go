@@ -1,9 +1,12 @@
 package test_abroad
 
 import (
+	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/shunyaYoshimra/day27/backend/utils/response"
 
 	"github.com/shunyaYoshimra/day27/backend/database"
 	"github.com/shunyaYoshimra/day27/backend/database/entity"
@@ -38,11 +41,21 @@ func TestAbroadShow(t *testing.T) {
 	t.Run("it should return success", func(t *testing.T) {
 		defer database.DropAllTable()
 		w := InitTestAbroadShow("3")
+		actual := response.TestResponse{}
+		if err := json.Unmarshal(w.Body.Bytes(), &actual); err != nil {
+			panic(err)
+		}
 		assert.Equal(t, http.StatusOK, w.Code)
+		assert.NotEmpty(t, actual.Data)
 	})
 	t.Run("it should return 404 with invalid params url", func(t *testing.T) {
 		defer database.DropAllTable()
 		w := InitTestAbroadShow("4")
+		actual := response.TestResponse{}
+		if err := json.Unmarshal(w.Body.Bytes(), &actual); err != nil {
+			panic(err)
+		}
 		assert.Equal(t, http.StatusNotFound, w.Code)
+		assert.Empty(t, actual.Data)
 	})
 }

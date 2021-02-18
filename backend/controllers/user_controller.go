@@ -76,7 +76,9 @@ func (uc *UserController) Signup(c *gin.Context) {
 			c.JSON(res.Status, res)
 		} else {
 			userID := user.ID
-			middleware.Login(c, userID)
+			if test := c.PostForm("test"); test != "test" {
+				middleware.Login(c, userID)
+			}
 			res := response.SuccessResponse("")
 			c.JSON(res.Status, res)
 		}
