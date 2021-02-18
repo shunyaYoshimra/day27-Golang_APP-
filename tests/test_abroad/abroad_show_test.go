@@ -21,10 +21,10 @@ func InitTestAbroadShow(id string) *httptest.ResponseRecorder {
 
 	abraodRepository := repositories.AbroadRepository{Conn: database.GetDB().Table("abroads")}
 	abraodRepository.Create(&entity.Abroad{
-		ID:      1,
+		ID:      3,
 		Country: "test country",
 		College: "test college",
-		UserID:  1,
+		UserID:  3,
 	})
 
 	w := httptest.NewRecorder()
@@ -37,13 +37,12 @@ func InitTestAbroadShow(id string) *httptest.ResponseRecorder {
 func TestAbroadShow(t *testing.T) {
 	t.Run("it should return success", func(t *testing.T) {
 		defer database.DropAllTable()
-		w := InitTestAbroadShow("1")
+		w := InitTestAbroadShow("3")
 		assert.Equal(t, http.StatusOK, w.Code)
 	})
 	t.Run("it should return 404 with invalid params url", func(t *testing.T) {
 		defer database.DropAllTable()
-		w := InitTestAbroadShow("3")
-		t.Log(w)
+		w := InitTestAbroadShow("4")
 		assert.Equal(t, http.StatusNotFound, w.Code)
 	})
 }
