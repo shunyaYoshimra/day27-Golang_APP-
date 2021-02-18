@@ -42,7 +42,8 @@ func TestAbroadShow(t *testing.T) {
 	})
 	t.Run("it should return 404 with invalid params url", func(t *testing.T) {
 		defer database.DropAllTable()
-		w := InitTestAbroadShow("2")
+		w := InitTestAbroadShow("3")
+		t.Log(w)
 		assert.Equal(t, http.StatusNotFound, w.Code)
 	})
 }
