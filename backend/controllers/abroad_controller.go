@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -56,9 +55,6 @@ func (ac *AbroadController) Create(c *gin.Context) {
 	country := c.PostForm("country")
 	college := c.PostForm("college")
 	description := c.PostForm("description")
-	fmt.Println("------------")
-	fmt.Println(country)
-	fmt.Println("------------")
 	var userID int
 	if test := c.PostForm("test"); test == "" {
 		userID = middleware.GetSession(c)
