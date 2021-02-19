@@ -24,7 +24,7 @@ func InitTestProfileUpdate(values []string) *httptest.ResponseRecorder {
 
 	profileRepository := repositories.ProfileRepository{Conn: database.GetDB().Table("profiles")}
 	profileRepository.Create(&entity.Profile{
-		ID:          11,
+		ID:          1,
 		Description: "test description",
 		Subject:     "test subject",
 	})
@@ -45,13 +45,13 @@ func InitTestProfileUpdate(values []string) *httptest.ResponseRecorder {
 func TestprofileUpdate(t *testing.T) {
 	t.Run("it should return success", func(t *testing.T) {
 		defer database.DropAllTable()
-		values := []string{"update description", "update subject", "11"}
+		values := []string{"update description", "update subject", "1"}
 		w := InitTestProfileUpdate(values)
 		assert.Equal(t, http.StatusOK, w.Code)
 	})
 	t.Run("it should return Not Found with duplicate user id", func(t *testing.T) {
 		defer database.DropAllTable()
-		values := []string{"update description", "update subject", "12"}
+		values := []string{"update description", "update subject", "2"}
 		w := InitTestProfileUpdate(values)
 		assert.Equal(t, http.StatusNotFound, w.Code)
 	})

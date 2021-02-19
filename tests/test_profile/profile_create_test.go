@@ -7,6 +7,10 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/shunyaYoshimra/day27/backend/database/entity"
+
+	"github.com/shunyaYoshimra/day27/backend/repositories"
+
 	"github.com/stretchr/testify/assert"
 
 	"github.com/shunyaYoshimra/day27/backend/database"
@@ -19,6 +23,11 @@ func InitTestProfileCreate(values []string) *httptest.ResponseRecorder {
 	r := gin.Default()
 	app := new(apps.Application)
 	app.CreateTest(r)
+
+	profileRepository := repositories.ProfileRepository{Conn: database.GetDB().Table("profiles")}
+	profileRepository.Create(&entity.Profile{
+		UserID: 2,
+	})
 
 	form := url.Values{}
 	form.Add("description", values[0])
@@ -36,19 +45,19 @@ func InitTestProfileCreate(values []string) *httptest.ResponseRecorder {
 func TestProfileCreate(t *testing.T) {
 	t.Run("it should return success", func(t *testing.T) {
 		defer database.DropAllTable()
-		values := []string{"test description", "test subject", "5"}
+		values := []string{"test description", "test subject", "1"}
 		w := InitTestProfileCreate(values)
 		assert.Equal(t, http.StatusOK, w.Code)
 	})
 	t.Run("it should return bad request with empty subject", func(t *testing.T) {
 		defer database.DropAllTable()
-		values := []string{"test description", "", "6"}
+		values := []string{"test description", "", "1"}
 		w := InitTestProfileCreate(values)
 		assert.Equal(t, http.StatusBadRequest, w.Code)
 	})
 	t.Run("it should return conflict with duplicate user id", func(t *testing.T) {
 		defer database.DropAllTable()
-		values := []string{"test description", "test subject", "1"}
+		values := []string{"test description", "test subject", "2"}
 		w := InitTestProfileCreate(values)
 		assert.Equal(t, http.StatusConflict, w.Code)
 	})

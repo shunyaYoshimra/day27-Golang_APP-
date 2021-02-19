@@ -26,10 +26,10 @@ func InitTestAbroadUpdate(values []string) *httptest.ResponseRecorder {
 
 	abroadRepository := repositories.AbroadRepository{Conn: database.GetDB().Table("abroads")}
 	abroadRepository.Create(&entity.Abroad{
-		ID:      21,
+		ID:      1,
 		Country: "test country",
 		College: "test college",
-		UserID:  21,
+		UserID:  1,
 	})
 
 	form := url.Values{}
@@ -49,7 +49,7 @@ func InitTestAbroadUpdate(values []string) *httptest.ResponseRecorder {
 func TestAbroadUpdate(t *testing.T) {
 	t.Run("it should return success", func(t *testing.T) {
 		defer database.DropAllTable()
-		values := []string{"update country", "update college", "update description", "21"}
+		values := []string{"update country", "update college", "update description", "1"}
 		w := InitTestAbroadUpdate(values)
 		actual := response.TestResponse{}
 		if err := json.Unmarshal(w.Body.Bytes(), &actual); err != nil {
@@ -60,7 +60,7 @@ func TestAbroadUpdate(t *testing.T) {
 	})
 	t.Run("it should return Not Found", func(t *testing.T) {
 		defer database.DropAllTable()
-		values := []string{"update country", "update college", "update description", "22"}
+		values := []string{"update country", "update college", "update description", "2"}
 		w := InitTestAbroadUpdate(values)
 		actual := response.TestResponse{}
 		if err := json.Unmarshal(w.Body.Bytes(), &actual); err != nil {

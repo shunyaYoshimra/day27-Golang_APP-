@@ -23,7 +23,13 @@ func NewContactController() ContactController {
 func (cc *ContactController) Create(c *gin.Context) {
 	media := c.PostForm("media")
 	account := c.PostForm("account")
-	userID := middleware.GetSession(c)
+	var userID int
+	if test := c.PostForm("test"); test == "" {
+		userID = middleware.GetSession(c)
+	} else {
+		testID, _ := strconv.Atoi(test)
+		userID = testID
+	}
 	if _, err := cc.Repository.FindByUser(userID); err == nil {
 		res := response.Conflict("コンタクトは既に登録されています(Your contact has already been registerd)")
 		c.JSON(res.Status, res)
@@ -69,9 +75,15 @@ func (cc *ContactController) GetMyContact(c *gin.Context) {
 }
 
 func (cc *ContactController) Update(c *gin.Context) {
-	userID := middleware.GetSession(c)
 	media := c.PostForm("media")
 	account := c.PostForm("account")
+	var userID int
+	if test := c.PostForm("test"); test == "" {
+		userID = middleware.GetSession(c)
+	} else {
+		testID, _ := strconv.Atoi(test)
+		userID = testID
+	}
 	if contact, err := cc.Repository.FindByUser(userID); err != nil {
 		res := response.NotFound("コンタクトが見つかりませんでした(This contact wasn't Found)")
 		c.JSON(res.Status, res)

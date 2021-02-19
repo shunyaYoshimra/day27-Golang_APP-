@@ -21,11 +21,11 @@ func InitTestOccupationShow(id string) *httptest.ResponseRecorder {
 
 	aboadRepository := repositories.OccupationRepository{Conn: database.GetDB().Table("occupations")}
 	aboadRepository.Create(&entity.Occupation{
-		ID:          3,
+		ID:          1,
 		Kind:        "test kind",
 		Company:     "test company",
 		Description: "test description",
-		UserID:      3,
+		UserID:      1,
 	})
 
 	w := httptest.NewRecorder()
@@ -38,12 +38,12 @@ func InitTestOccupationShow(id string) *httptest.ResponseRecorder {
 func TestOccupationShow(t *testing.T) {
 	t.Run("it should return success", func(t *testing.T) {
 		defer database.DropAllTable()
-		w := InitTestOccupationShow("3")
+		w := InitTestOccupationShow("1")
 		assert.Equal(t, http.StatusOK, w.Code)
 	})
 	t.Run("it shoule return 404 with invalid prams url", func(t *testing.T) {
 		defer database.DropAllTable()
-		w := InitTestOccupationShow("4")
+		w := InitTestOccupationShow("2")
 		assert.Equal(t, http.StatusNotFound, w.Code)
 	})
 }

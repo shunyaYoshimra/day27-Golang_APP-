@@ -36,13 +36,13 @@ func InitTestAbroadCreate(values []string) *httptest.ResponseRecorder {
 func TestAbroadCreate(t *testing.T) {
 	t.Run("it should return success", func(t *testing.T) {
 		defer database.DropAllTable()
-		values := []string{"teset country", "test college", "test description", "10"}
+		values := []string{"teset country", "test college", "test description", "1"}
 		w := InitTestAbroadCreate(values)
 		assert.Equal(t, http.StatusOK, w.Code)
 	})
 	t.Run("it should return Bad Request with invalid params", func(t *testing.T) {
 		defer database.DropAllTable()
-		values := []string{"", "", "", "12"}
+		values := []string{"", "", "", "2"}
 		w := InitTestAbroadCreate(values)
 		assert.Equal(t, http.StatusBadRequest, w.Code)
 	})

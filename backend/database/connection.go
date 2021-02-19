@@ -43,5 +43,21 @@ func GetDB() *gorm.DB {
 }
 
 func DropAllTable() {
-	conn.DropTable(&entity.User{})
+	conn.DropTable(
+		entity.User{},
+		entity.Profile{},
+		entity.Contact{},
+		entity.Abroad{},
+		entity.Occupation{},
+		entity.Question{},
+		entity.Answer{},
+		entity.Post{},
+		entity.Image{},
+		entity.Favorite{},
+		entity.Article{},
+		entity.ArticleLine{},
+		entity.BoldNumber{},
+		entity.LinkNumber{},
+		entity.Check{},
+	)
 }
