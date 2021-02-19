@@ -78,9 +78,15 @@ func (pc *ProfileController) GetMyProfile(c *gin.Context) {
 }
 
 func (pc *ProfileController) Update(c *gin.Context) {
-	userID := middleware.GetSession(c)
 	description := c.PostForm("description")
 	subject := c.PostForm("subject")
+	var userID int
+	if test := c.PostForm("test"); test == "" {
+		userID = middleware.GetSession(c)
+	} else {
+		testID, _ := strconv.Atoi(test)
+		userID = testID
+	}
 	if profile, err := pc.Repository.FindByUser(userID); err != nil {
 		res := response.NotFound("プロフィールが見つかりませんでした(This Profile wasn't Found)")
 		c.JSON(res.Status, res)

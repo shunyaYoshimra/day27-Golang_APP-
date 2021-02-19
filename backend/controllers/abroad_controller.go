@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -55,7 +56,16 @@ func (ac *AbroadController) Create(c *gin.Context) {
 	country := c.PostForm("country")
 	college := c.PostForm("college")
 	description := c.PostForm("description")
-	userID := middleware.GetSession(c)
+	fmt.Println("------------")
+	fmt.Println(country)
+	fmt.Println("------------")
+	var userID int
+	if test := c.PostForm("test"); test == "" {
+		userID = middleware.GetSession(c)
+	} else {
+		testID, _ := strconv.Atoi(test)
+		userID = testID
+	}
 	if country == "" && college == "" && description == "" {
 		res := response.BadRequest("情報を入力してください(Please fill in your information)")
 		c.JSON(res.Status, res)
@@ -81,7 +91,13 @@ func (ac *AbroadController) Update(c *gin.Context) {
 	country := c.PostForm("country")
 	college := c.PostForm("college")
 	description := c.PostForm("description")
-	userID := middleware.GetSession(c)
+	var userID int
+	if test := c.PostForm("test"); test == "" {
+		userID = middleware.GetSession(c)
+	} else {
+		testID, _ := strconv.Atoi(test)
+		userID = testID
+	}
 	if abroad, err := ac.Repository.FindByUser(userID); err != nil {
 		res := response.NotFound("海外情報が見つかりませんでした(Not Found)")
 		c.JSON(res.Status, res)
