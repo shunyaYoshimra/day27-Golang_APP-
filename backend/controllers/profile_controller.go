@@ -23,7 +23,13 @@ func NewProfileController() ProfileController {
 func (pc *ProfileController) Create(c *gin.Context) {
 	description := c.PostForm("description")
 	subject := c.PostForm("subject")
-	userID := middleware.GetSession(c)
+	var userID int
+	if test := c.PostForm("test"); test == "" {
+		userID = middleware.GetSession(c)
+	} else {
+		testID, _ := strconv.Atoi(test)
+		userID = testID
+	}
 	if subject == "" {
 		res := response.BadRequest("学科は必ず入力してください(Subject should be filled in)")
 		c.JSON(res.Status, res)
