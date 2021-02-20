@@ -27,8 +27,8 @@ func InitTestUserShow(id string) *httptest.ResponseRecorder {
 		Email:    "maoorgri1015@gmail.com",
 		Password: "password",
 	})
-	w := httptest.NewRecorder()
 
+	w := httptest.NewRecorder()
 	req, _ := http.NewRequest(http.MethodGet, "/api/test/user/"+id, nil)
 	req.Header.Set("Content-Type", "application/json")
 	r.ServeHTTP(w, req)
@@ -44,7 +44,6 @@ func TestUserShow(t *testing.T) {
 	t.Run("it should return 404 with invalid params url", func(t *testing.T) {
 		defer database.DropAllTable()
 		w := InitTestUserShow("2")
-		t.Log(w)
 		assert.Equal(t, http.StatusNotFound, w.Code)
 	})
 }

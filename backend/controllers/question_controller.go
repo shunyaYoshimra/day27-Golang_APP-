@@ -57,7 +57,13 @@ func (qc *QuestionController) Create(c *gin.Context) {
 	title := c.PostForm("title")
 	content := c.PostForm("content")
 	about := c.PostForm("about")
-	userID := middleware.GetSession(c)
+	var userID int
+	if test := c.PostForm("test"); test == "" {
+		userID = middleware.GetSession(c)
+	} else {
+		testID, _ := strconv.Atoi(test)
+		userID = testID
+	}
 	if title == "" || content == "" || about == "" {
 		res := response.BadRequest("全ての情報を入力して下さい(All information should be filled in)")
 		c.JSON(res.Status, res)
