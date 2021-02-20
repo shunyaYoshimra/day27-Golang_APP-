@@ -73,9 +73,6 @@ func (pc *PostController) SearchedIndex(c *gin.Context) {
 	var postResponse []PostResponse
 	var eachResponse PostResponse
 	keyword := c.Param("keyword")
-	fmt.Println("--------")
-	fmt.Println(keyword)
-	fmt.Println("--------")
 	posts := pc.PostRepository.PostsByKeyword(keyword)
 	for _, post := range posts {
 		images := pc.ImageRepository.ImagesByPost(post.ID)
@@ -111,11 +108,6 @@ func (pc *PostController) Create(c *gin.Context) {
 	content := c.PostForm("content")
 	tags := c.Param("tags")
 	time := c.PostForm("time")
-	fmt.Println("------------")
-	fmt.Println(content)
-	fmt.Println(tags)
-	fmt.Println(time)
-	fmt.Println("------------")
 	userID := middleware.GetSession(c)
 	if content == "" {
 		res := response.BadRequest("内容は必ず記入してください(Content should be filled in)")
