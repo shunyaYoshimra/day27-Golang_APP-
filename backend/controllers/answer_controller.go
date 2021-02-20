@@ -31,7 +31,13 @@ func (ac *AnswerController) Index(c *gin.Context) {
 func (ac *AnswerController) Create(c *gin.Context) {
 	content := c.PostForm("content")
 	questionID, _ := strconv.Atoi(c.Param("id"))
-	userID := middleware.GetSession(c)
+	var userID int
+	if test := c.PostForm("test"); test == "" {
+		userID = middleware.GetSession(c)
+	} else {
+		testID, _ := strconv.Atoi(test)
+		userID = testID
+	}
 	if content == "" {
 		res := response.BadRequest("内容を入力してください(Content should be filled in)")
 		c.JSON(res.Status, res)
