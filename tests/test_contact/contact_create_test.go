@@ -1,6 +1,7 @@
 package test_contact
 
 import (
+	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -9,6 +10,7 @@ import (
 
 	"github.com/shunyaYoshimra/day27/backend/database/entity"
 	"github.com/shunyaYoshimra/day27/backend/repositories"
+	"github.com/shunyaYoshimra/day27/backend/utils/response"
 
 	"github.com/shunyaYoshimra/day27/backend/database"
 	"github.com/stretchr/testify/assert"
@@ -45,12 +47,22 @@ func TestContactCreate(t *testing.T) {
 		defer database.DropAllTable()
 		values := []string{"test media", "test account", "1"}
 		w := InitTestContactCreate(values)
+		actual := response.TestResponse{}
+		if err := json.Unmarshal(w.Body.Bytes(), &actual); err != nil {
+			panic(err)
+		}
 		assert.Equal(t, http.StatusOK, w.Code)
+		assert.NotEmpty(t, actual.Data)
 	})
 	t.Run("it should return bad request with invalid params", func(t *testing.T) {
 		defer database.DropAllTable()
 		values := []string{"test media", "test account", "2"}
 		w := InitTestContactCreate(values)
+		actual := response.TestResponse{}
+		if err := json.Unmarshal(w.Body.Bytes(), &actual); err != nil {
+			panic(err)
+		}
 		assert.Equal(t, http.StatusConflict, w.Code)
+		assert.Empty(t, actual.Data)
 	})
 }
