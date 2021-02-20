@@ -62,7 +62,10 @@ func (ac *AnswerController) Update(c *gin.Context) {
 	content := c.PostForm("content")
 	answerID, _ := strconv.Atoi(c.PostForm("answerID"))
 	questionID, _ := strconv.Atoi(c.PostForm("questionID"))
-	if answer, err := ac.Repository.FindByID(answerID); err != nil {
+	if content == "" {
+		res := response.BadRequest("内容は必ず入力して下さい(Content should be filled in)")
+		c.JSON(res.Status, res)
+	} else if answer, err := ac.Repository.FindByID(answerID); err != nil {
 		res := response.NotFound("回答が見つかりませんでした(Answer was not found)")
 		c.JSON(res.Status, res)
 	} else if err := ac.Repository.Update(answer, content); err != nil {
