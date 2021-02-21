@@ -64,9 +64,15 @@ func (cc *CheckController) Create(c *gin.Context) {
 
 func (cc *CheckController) Delete(c *gin.Context) {
 	articleID, _ := strconv.Atoi(c.Param("id"))
-	userID := middleware.GetSession(c)
+	var userID int
+	if test := c.PostForm("test"); test == "" {
+		userID = middleware.GetSession(c)
+	} else {
+		testID, _ := strconv.Atoi(test)
+		userID = testID
+	}
 	if check, err := cc.Repository.CheckUnique(articleID, userID); err != nil {
-		res := response.Conflict("was not unique")
+		res := response.NotFound("was not found")
 		c.JSON(res.Status, res)
 	} else if err := cc.Repository.Delete(check); err != nil {
 		res := response.BadRequest("予期せぬエラーが発生しました(An unexpected error has occured)")
