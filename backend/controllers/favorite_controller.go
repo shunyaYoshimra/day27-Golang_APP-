@@ -79,7 +79,7 @@ func (fc *FavoriteController) Delete(c *gin.Context) {
 		userID = testID
 	}
 	if favorite, err := fc.Repository.CheckUnique(postID, userID); err != nil {
-		res := response.Conflict("was not unique")
+		res := response.NotFound("was not unique")
 		c.JSON(res.Status, res)
 	} else if err := fc.Repository.Delete(favorite); err != nil {
 		res := response.BadRequest("予期せぬエラーが発生しました(An unexpected error has occured)")
