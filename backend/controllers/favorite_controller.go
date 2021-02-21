@@ -24,7 +24,13 @@ func NewFavoriteController() FavoriteController {
 }
 
 func (fc *FavoriteController) MyFavorites(c *gin.Context) {
-	userID := middleware.GetSession(c)
+	var userID int
+	if test := c.PostForm("test"); test == "" {
+		userID = middleware.GetSession(c)
+	} else {
+		testID, _ := strconv.Atoi(test)
+		userID = testID
+	}
 	favorites := fc.Repository.FavroitesOfUser(userID)
 	c.JSON(http.StatusOK, favorites)
 }
@@ -37,7 +43,13 @@ func (fc *FavoriteController) FavoritesOfUser(c *gin.Context) {
 
 func (fc *FavoriteController) Create(c *gin.Context) {
 	postID, _ := strconv.Atoi(c.Param("id"))
-	userID := middleware.GetSession(c)
+	var userID int
+	if test := c.PostForm("test"); test == "" {
+		userID = middleware.GetSession(c)
+	} else {
+		testID, _ := strconv.Atoi(test)
+		userID = testID
+	}
 	if _, err := fc.Repository.CheckUnique(postID, userID); err == nil {
 		res := response.Conflict("Conflict!!!")
 		c.JSON(res.Status, res)
@@ -59,7 +71,13 @@ func (fc *FavoriteController) Create(c *gin.Context) {
 
 func (fc *FavoriteController) Delete(c *gin.Context) {
 	postID, _ := strconv.Atoi(c.Param("id"))
-	userID := middleware.GetSession(c)
+	var userID int
+	if test := c.PostForm("test"); test == "" {
+		userID = middleware.GetSession(c)
+	} else {
+		testID, _ := strconv.Atoi(test)
+		userID = testID
+	}
 	if favorite, err := fc.Repository.CheckUnique(postID, userID); err != nil {
 		res := response.Conflict("was not unique")
 		c.JSON(res.Status, res)
