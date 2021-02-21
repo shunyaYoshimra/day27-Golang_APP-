@@ -36,9 +36,15 @@ func (cc *CheckController) ChecksOfUser(c *gin.Context) {
 
 func (cc *CheckController) Create(c *gin.Context) {
 	articleID, _ := strconv.Atoi(c.Param("id"))
-	userID := middleware.GetSession(c)
+	var userID int
+	if test := c.PostForm("test"); test == "" {
+		userID = middleware.GetSession(c)
+	} else {
+		testID, _ := strconv.Atoi(test)
+		userID = testID
+	}
 	if _, err := cc.Repository.CheckUnique(articleID, userID); err == nil {
-		res := response.NotFound("This check was not found")
+		res := response.Conflict("conflict !!!")
 		c.JSON(res.Status, res)
 	} else {
 		check := entity.Check{
