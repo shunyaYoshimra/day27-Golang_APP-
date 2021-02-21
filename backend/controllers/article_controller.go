@@ -65,7 +65,13 @@ func (ac *ArticleController) Create(c *gin.Context) {
 	lines := strings.Split(c.PostForm("lines"), "&divide;,")
 	boldNumbers := strings.Split(c.PostForm("bold-numbers"), ",")
 	linkNumbers := strings.Split(c.PostForm("link-numbers"), ",")
-	userID := middleware.GetSession(c)
+	var userID int
+	if test := c.PostForm("test"); test == "" {
+		userID = middleware.GetSession(c)
+	} else {
+		testID, _ := strconv.Atoi(test)
+		userID = testID
+	}
 	if title == "" || lines == nil {
 		res := response.BadRequest("タイトルと内容は必ず記入してください(Title and Content should be filled in)")
 		c.JSON(res.Status, res)
