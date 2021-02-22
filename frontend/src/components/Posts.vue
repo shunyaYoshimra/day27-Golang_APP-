@@ -2,8 +2,10 @@
   <div id="posts">
     <div class="search-form">
       <div>
-        <input type="text" placeholder="検索(search)" v-model="keyWord">
-        <button @click="searchPosts()" class="btn"><i class="material-icons">search</i></button>
+        <input type="text" placeholder="検索(search)" v-model="keyWord" />
+        <button @click="searchPosts()" class="btn">
+          <i class="material-icons">search</i>
+        </button>
       </div>
     </div>
     <div v-for="(post, id) in posts" :key="id">
@@ -17,7 +19,7 @@
             <template v-if="post.images.length >= 2">
               <span class="more-images" @click="modalNum = id">+{{post.images.length - 1}}</span>
             </template>
-            <img class="activator" :src="imagePath + post.images[0].file_name">
+            <img class="activator" :src="imagePath + post.images[0].file_name" />
           </div>
         </template>
         <div class="card-content">
@@ -32,7 +34,10 @@
               </span>
             </template>
             <template v-else>
-              <i @click="favoritePost(post.post.id)" class="material-icons grey-text lighten-2">check</i>
+              <i
+                @click="favoritePost(post.post.id)"
+                class="material-icons grey-text lighten-2"
+              >check</i>
             </template>
           </div>
           <small>{{post.post.created_at | moment("MMMM Do YYYY")}}</small>
@@ -43,14 +48,26 @@
           </small>
         </div>
         <div class="card-reveal">
-          <span class="card-title grey-text text-darken-4"><router-link class="grey-text text-darken-4 bold" :to="'/profile/' + user.id">{{user.name}}</router-link><i class="material-icons right">close</i></span>
+          <span class="card-title grey-text text-darken-4">
+            <router-link
+              class="grey-text text-darken-4 bold"
+              :to="'/profile/' + user.id"
+            >{{user.name}}</router-link>
+            <i class="material-icons right">close</i>
+          </span>
           <div class="abroads-wrapper">
             <template v-if="country == null && college == null && description == null">
               <p>{{user.name}}さんの留学情報はまだ登録されていません</p>
             </template>
             <template v-else>
-              <p class="country"><i class="material-icons tiny">place</i><span>{{country}}</span></p>
-              <p><i class="material-icons tiny">school</i><span>{{college}}</span></p>
+              <p class="country">
+                <i class="material-icons tiny">place</i>
+                <span>{{country}}</span>
+              </p>
+              <p>
+                <i class="material-icons tiny">school</i>
+                <span>{{college}}</span>
+              </p>
               <p class="description">{{description}}</p>
             </template>
           </div>
@@ -66,7 +83,7 @@
               <i @click="imageNum ++" class="material-icons right">keyboard_arrow_right</i>
             </template>
             <template v-if="post.images.length >= imageNum + 1">
-              <img :src="imagePath + post.images[imageNum].file_name">
+              <img :src="imagePath + post.images[imageNum].file_name" />
             </template>
           </div>
         </tempalte>
@@ -86,93 +103,93 @@ export default {
       myFavorites: [],
       abroads: [],
       users: [],
-      imagePath: "/src/img/",
+      imagePath: "/dist/img/",
       imageNum: 0,
       modalNum: -1,
       deletedID: [],
-      keyWord: "",
-    }
+      keyWord: ""
+    };
   },
   filters: {
     moment(value, format) {
-     return moment(value).format(format); 
+      return moment(value).format(format);
     }
   },
   computed: {
     userOfPost: function() {
       self = this;
       return function(id) {
-        for (let i = 0; i < self.users.length; i ++) {
+        for (let i = 0; i < self.users.length; i++) {
           if (self.users[i].id === id) {
             return self.users[i];
           }
         }
-      }
+      };
     },
     countryOfPost: function() {
       self = this;
       return function(id) {
-        for (let i = 0; i< self.abroads.length; i ++) {
+        for (let i = 0; i < self.abroads.length; i++) {
           if (self.abroads[i].user_id === id) {
             return self.abroads[i].country;
           }
         }
-      }
+      };
     },
     collegeOfPost: function() {
       self = this;
       return function(id) {
-        for (let i = 0; i< self.abroads.length; i ++) {
+        for (let i = 0; i < self.abroads.length; i++) {
           if (self.abroads[i].user_id === id) {
             return self.abroads[i].college;
           }
         }
-      }
+      };
     },
     descriptionOfPost: function() {
       self = this;
       return function(id) {
-        for (let i = 0; i< self.abroads.length; i ++) {
+        for (let i = 0; i < self.abroads.length; i++) {
           if (self.abroads[i].user_id === id) {
             return self.abroads[i].description;
           }
         }
-      }
-    },
+      };
+    }
   },
   mounted() {
     // get me
-    axios.get("/api/get_me").then((res) => {
+    axios.get("/api/get_me").then(res => {
       this.me = res.data.data;
-    })
+    });
     // get posts and images
-    axios.get("/api/posts").then((res) => {
-      for (let i = 0; i < res.data.length; i ++) {
+    axios.get("/api/posts").then(res => {
+      for (let i = 0; i < res.data.length; i++) {
         this.posts.push(res.data[i]);
       }
-    })
+    });
     // get users
-    axios.get("/api/users").then((res) => {
-      for (let i = 0; i < res.data.length; i ++) {
+    axios.get("/api/users").then(res => {
+      for (let i = 0; i < res.data.length; i++) {
         this.users.push(res.data[i]);
       }
-    })
+    });
     // get abroads
-    axios.get("/api/abroads").then((res) => {
-      for (let i = 0;  i < res.data.length; i ++) {
+    axios.get("/api/abroads").then(res => {
+      for (let i = 0; i < res.data.length; i++) {
         this.abroads.push(res.data[i]);
       }
-    })
+    });
     // get favorites
-    axios.get("/api/favorites").then((res) => {
-      for (let i = 0; i < res.data.length; i ++) {
-        this.myFavorites.push(res.data[i].post_id)
+    axios.get("/api/favorites").then(res => {
+      for (let i = 0; i < res.data.length; i++) {
+        this.myFavorites.push(res.data[i].post_id);
       }
-    })
+    });
   },
   updated() {
-    $(document).ready(function(){
-      $('.modal').modal();
+    $(document).ready(function() {
+      $(".modal").modal();
     });
   },
   methods: {
@@ -181,34 +198,38 @@ export default {
       this.imageNum = 0;
     },
     deletePost(id) {
-      if(confirm("本当にこの投稿を削除しますか?(Are you sure to delete this post?)")) {
-        axios.delete(`/api/posts/${id}`)
+      if (
+        confirm(
+          "本当にこの投稿を削除しますか?(Are you sure to delete this post?)"
+        )
+      ) {
+        axios.delete(`/api/posts/${id}`);
         this.deletedID.push(id);
       }
     },
     favoritePost(id) {
-      axios.post(`/api/favorites/${id}`).then((res) => {
-        this.myFavorites.push(res.data.data.post_id)
+      axios.post(`/api/favorites/${id}`).then(res => {
+        this.myFavorites.push(res.data.data.post_id);
       });
     },
     DeleteFavorite(id) {
-      axios.delete(`/api/favorites/${id}`).then((res) => {
+      axios.delete(`/api/favorites/${id}`).then(res => {
         this.myFavorites = this.myFavorites.filter(n => n !== id);
-      })
+      });
     },
     searchPosts() {
       if (this.keyWord !== "") {
         this.posts = [];
-          axios.get(`/api/searched_posts/${this.keyWord}`).then((res) => {
-            console.log(res.data);
-            for (let i = 0; i < res.data.length; i ++) {
-              this.posts.push(res.data[i]);
-            }
-          })
-        }
+        axios.get(`/api/searched_posts/${this.keyWord}`).then(res => {
+          console.log(res.data);
+          for (let i = 0; i < res.data.length; i++) {
+            this.posts.push(res.data[i]);
+          }
+        });
       }
-  },
-}
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -221,7 +242,7 @@ export default {
 
   .search-form {
     div {
-      width:200px;
+      width: 200px;
       display: flex;
       align-items: center;
       input {
@@ -231,7 +252,7 @@ export default {
         border-radius: 2px;
         font-size: 1rem;
         width: 100%;
-        height:25px;
+        height: 25px;
         box-sizing: border-box;
         padding: 0 1rem;
       }
@@ -242,13 +263,12 @@ export default {
       .btn {
         height: 25px;
         background-color: #333;
-        
+
         i {
           transform: translateY(-4px);
         }
       }
     }
-    
   }
   .card {
     .card-image {
@@ -284,7 +304,7 @@ export default {
     }
 
     .card-reveal {
-      .abroads-wrapper{
+      .abroads-wrapper {
         .country {
           padding-top: 30px;
         }
@@ -318,10 +338,11 @@ export default {
         text-align: center;
         padding-top: 7px;
       }
-      .close-modal:hover{
-        opacity:1;
+      .close-modal:hover {
+        opacity: 1;
       }
-      .left, .right {
+      .left,
+      .right {
         position: absolute;
         top: 350px;
         width: 30px;
@@ -363,7 +384,8 @@ export default {
         .close-modal {
           margin-left: 270px;
         }
-        .left, .right {
+        .left,
+        .right {
           top: 300px;
         }
         .left {

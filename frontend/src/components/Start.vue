@@ -65,9 +65,9 @@ export default {
   },
   methods: {
     start() {
-      this.$router.push("/");
+      this.$router.push(`/profile/${this.user.id}`);
     }
-  },
+  }
 };
 </script>
 
@@ -98,6 +98,22 @@ export default {
     margin-top: 20px;
     .btn {
       width: 600px;
+    }
+  }
+}
+@media (max-width: 480px) {
+  #start {
+    .confirm {
+      width: 98%;
+      margin: auto;
+    }
+    .start-btn {
+      width: 98%;
+      margin: auto;
+      margin-top: 40px;
+      .btn {
+        width: 100%;
+      }
     }
   }
 }

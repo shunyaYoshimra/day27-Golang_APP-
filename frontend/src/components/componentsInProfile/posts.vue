@@ -3,16 +3,19 @@
     <div class="images">
       <div class="each-image" v-for="(post, id) in posts" :key="id">
         <a class="modal-trigger" :href="'#modal' + id">
-          <img :src="imagePath + post.images[0].file_name">
+          <img :src="imagePath + post.images[0].file_name" />
         </a>
         <!-- modal -->
         <div :id="'modal' + id" class="modal card">
           <div class="card-image">
-            <img :src="imagePath + post.images[0].file_name">
+            <img :src="imagePath + post.images[0].file_name" />
           </div>
           <div class="card-content">
             <p>{{post.post.content}}</p>
-            <small><i class="material-icons tiny">local_offer</i>{{post.post.tags}}</small>
+            <small>
+              <i class="material-icons tiny">local_offer</i>
+              {{post.post.tags}}
+            </small>
           </div>
         </div>
       </div>
@@ -26,8 +29,8 @@ export default {
   data() {
     return {
       posts: [],
-      imagePath: "/src/img/",
-    }
+      imagePath: "/dist/img/"
+    };
   },
   watch: {
     $route(to, from) {
@@ -37,32 +40,32 @@ export default {
   },
   mounted() {
     // get user's posts
-    axios.get(`/api/posts/${this.$route.params.id}`).then((res) => {
+    axios.get(`/api/posts/${this.$route.params.id}`).then(res => {
       for (let i = 0; i < res.data.length; i++) {
-        this.posts.push(res.data[i])
+        this.posts.push(res.data[i]);
       }
-    })
+    });
   },
   updated() {
     // jquery for modal
-    $(document).ready(function(){
-      $('.modal').modal();
+    $(document).ready(function() {
+      $(".modal").modal();
     });
   },
   methods: {
     fetchItems(id) {
-       // get user's posts
-      axios.get(`/api/posts/${id}`).then((res) => {
+      // get user's posts
+      axios.get(`/api/posts/${id}`).then(res => {
         for (let i = 0; i < res.data.length; i++) {
-          this.posts.push(res.data[i])
+          this.posts.push(res.data[i]);
         }
-      })
+      });
     },
-     initData() {
-       this.posts = [];
-    },
-  },
-}
+    initData() {
+      this.posts = [];
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>
