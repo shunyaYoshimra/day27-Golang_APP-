@@ -220,4 +220,25 @@ export default {
     }
   }
 }
+@media (max-width: 480px) {
+  #about-us {
+    width: 70%;
+    margin: auto;
+    .post-wrapper {
+      .post-img {
+        width: 100%;
+      }
+    }
+    .article-wrapper {
+      .article-img {
+        width: 100%;
+      }
+    }
+    .question-wrapper {
+      .question-img {
+        width: 100%;
+      }
+    }
+  }
+}
 </style>
