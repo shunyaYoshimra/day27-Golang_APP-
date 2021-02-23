@@ -1,7 +1,7 @@
 <template>
   <header class="header">
     <div>
-      <router-link :to="'/profile/' + this.me.id" class="logo" >Gaidai Chat Online</router-link>
+      <router-link :to="'/profile/' + this.me.id" class="logo">Gaidai Chat Online</router-link>
     </div>
     <ul class="header-nav">
       <li class="dropdown-trigger" data-target="dropdown1">
@@ -48,17 +48,17 @@
           <router-link class="test" :to="{name: 'profile', params: {id: me.id}}">Profile</router-link>
         </li>
         <li>
-          <a class="test" href="#!">two</a>
+          <router-link class="test" to="/profiles/edit">Edit Profile</router-link>
         </li>
         <li>
-          <a class="test" href="#!">About Us</a>
+          <router-link class="test" to="/about_us">About Us</router-link>
         </li>
         <li class="divider" tabindex="-1"></li>
         <li>
           <a class="test" href="/api/logout">Logout</a>
         </li>
       </ul>
-    </ul> 
+    </ul>
   </header>
 </template>
 
@@ -67,23 +67,23 @@ import axios from "axios";
 export default {
   data() {
     return {
-      me: {},
-    }
+      me: {}
+    };
   },
   mounted() {
     // jquery for dropdown
-    $('.dropdown-trigger').dropdown();
+    $(".dropdown-trigger").dropdown();
     //  get me
-    axios.get("/api/get_me").then((res) => {
-      console.log(res.data)
+    axios.get("/api/get_me").then(res => {
+      console.log(res.data);
       this.me = res.data.data;
-    })
+    });
   },
   updated() {
-     // jquery for dropdown
-    $('.dropdown-trigger').dropdown();
-  },
-}
+    // jquery for dropdown
+    $(".dropdown-trigger").dropdown();
+  }
+};
 </script>
 
 <style lang="scss" scoped>
