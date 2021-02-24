@@ -28,7 +28,7 @@ export default {
       err: "",
 
       email: "",
-      password: "",
+      password: ""
     };
   },
   methods: {
@@ -111,6 +111,11 @@ export default {
     small {
       color: #666;
     }
+  }
+}
+@media (max-width: 480px) {
+  #login {
+    margin-bottom: 50px;
   }
 }
 </style>

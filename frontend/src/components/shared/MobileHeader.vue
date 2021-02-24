@@ -25,16 +25,37 @@
           <i class="material-icons">create</i>Questions
         </router-link>
       </li>
+      <li>
+        <router-link :to="'/profile/'+me.id">
+          <i class="material-icons">face</i>Profile
+        </router-link>
+      </li>
+      <li>
+        <router-link to="/about_us">About Us</router-link>
+      </li>
+      <li>
+        <a class="test" href="/api/logout">Logout</a>
+      </li>
     </ul>
   </header>
 </template>
 
 <script>
+import axios from "axios";
 export default {
+  data() {
+    return {
+      me: {}
+    };
+  },
   mounted() {
     // jquery for sidenav
     $(document).ready(function() {
       $(".sidenav").sidenav();
+    });
+    // get me
+    axios.get("/api/get_me").then(res => {
+      this.me = res.data.data;
     });
   },
   updated() {

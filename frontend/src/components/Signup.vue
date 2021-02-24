@@ -119,4 +119,9 @@ export default {
     }
   }
 }
+@media (max-width: 480px) {
+  #signup {
+    margin-bottom: 50px;
+  }
+}
 </style>
