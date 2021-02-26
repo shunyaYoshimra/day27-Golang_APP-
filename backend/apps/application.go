@@ -19,6 +19,12 @@ func (a Application) CreateApp(r *gin.Engine) {
 	configureView(r)
 }
 
+func (a Application) CreateProductionApp(r *gin.Engine) {
+	configureProductionAppDB()
+	configureAPIEndpoint(r)
+	configureView(r)
+}
+
 func (a Application) CreateTest(r *gin.Engine) {
 	configureTestDB()
 	configureTestAPIEndpoint(r)
@@ -26,6 +32,12 @@ func (a Application) CreateTest(r *gin.Engine) {
 
 func configureAppDB() {
 	database.AppConnection()
+	conn := database.GetDB()
+	migration.AutoMigration(conn)
+}
+
+func configureProductionAppDB() {
+	database.ProductionAppConnection()
 	conn := database.GetDB()
 	migration.AutoMigration(conn)
 }

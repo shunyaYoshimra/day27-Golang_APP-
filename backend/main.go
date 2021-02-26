@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -8,10 +9,18 @@ import (
 	"github.com/shunyaYoshimra/day27/backend/apps"
 )
 
+var env = flag.String("env", "development", "")
+
 func main() {
+	flag.Parse()
+
 	r := gin.Default()
 	app := new(apps.Application)
-	app.CreateApp(r)
+	if *env == "production" {
+		app.CreateProductionApp(r)
+	} else {
+		app.CreateApp(r)
+	}
 
 	if err := godotenv.Load("../.env"); err != nil {
 		panic(err)

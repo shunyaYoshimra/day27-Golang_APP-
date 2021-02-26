@@ -1,6 +1,7 @@
 package database
 
 import (
+	"fmt"
 	"os"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -16,9 +17,12 @@ func Connection() {
 	provider := os.Getenv("DB_PROVIDER")
 	user := os.Getenv("DB_USER")
 	pass := os.Getenv("DB_PASS")
+	host := os.Getenv("DB_HOST")
 	name := os.Getenv("DB_NAME")
-	authDB := user + ":" + pass + "@/" + name + "?parseTime=true"
+	// authDB := user + ":" + pass + "@tcp()/" + name + "?parseTime=true"
+	authDB := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local", user, pass, host, name)
 	conn, err = gorm.Open(provider, authDB)
+	// conn, err = gorm.Open("mysql", "root:password@tcp(day27_db)/docker_go?charset=utf8&parseTime=True")
 	if err != nil {
 		panic(err)
 	}
@@ -26,6 +30,13 @@ func Connection() {
 
 func AppConnection() {
 	if err := godotenv.Load("../.env"); err != nil {
+		panic(err)
+	}
+	Connection()
+}
+
+func ProductionAppConnection() {
+	if err := godotenv.Load("../.env.prod"); err != nil {
 		panic(err)
 	}
 	Connection()
