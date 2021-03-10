@@ -30,14 +30,18 @@ func Connection() {
 
 func AppConnection() {
 	if err := godotenv.Load("../.env"); err != nil {
-		panic(err)
+		if err := godotenv.Load("./.env"); err != nil {
+			panic(err)
+		}
 	}
 	Connection()
 }
 
 func ProductionAppConnection() {
 	if err := godotenv.Load("../.env.prod"); err != nil {
-		panic(err)
+		if err := godotenv.Load("./.env"); err != nil {
+			panic(err)
+		}
 	}
 	Connection()
 }
