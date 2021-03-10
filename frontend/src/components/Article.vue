@@ -14,7 +14,7 @@
               <i class="material-icons">check</i>
             </span>
           </template>
-          <br>
+          <br />
           <small>{{article.created_at | moment("MMMM Do YYYY")}}</small>
         </div>
         <template v-if="me.id === article.user_id">
@@ -31,7 +31,7 @@
       </div>
       <div class="title-wrapper">
         <template v-if="editBool">
-          <input class="title edit-title" type="text" v-model="article.title">
+          <input class="title edit-title" type="text" v-model="article.title" />
         </template>
         <template v-else>
           <h1 class="title">{{article.title}}</h1>
@@ -43,7 +43,7 @@
             <textarea v-model="lines[id]"></textarea>
           </template>
           <template v-else>
-            <a :href="line.line">{{line}}</a>
+            <a :href="line">{{line}}</a>
           </template>
         </template>
         <template v-else>
@@ -56,11 +56,21 @@
         </template>
       </div>
     </div>
-   
+
     <ul class="pagination">
-      <li class="disabled"><a @click="goBack()"><i class="material-icons">chevron_left</i></a></li>
-      <li v-for="n in pageIDs" :key="n" class="waves-effect" :class="thisPage(n)"><router-link :to="'/article/' + n">{{pageIndex(n)}}</router-link></li>
-      <li class="waves-effect"><a @click="goAhead()"><i class="material-icons">chevron_right</i></a></li>
+      <li class="disabled">
+        <a @click="goBack()">
+          <i class="material-icons">chevron_left</i>
+        </a>
+      </li>
+      <li v-for="n in pageIDs" :key="n" class="waves-effect" :class="thisPage(n)">
+        <router-link :to="'/article/' + n">{{pageIndex(n)}}</router-link>
+      </li>
+      <li class="waves-effect">
+        <a @click="goAhead()">
+          <i class="material-icons">chevron_right</i>
+        </a>
+      </li>
     </ul>
   </div>
 </template>
@@ -79,56 +89,68 @@ export default {
       boldNumbers: [],
       linkNumbers: [],
       checkedUserIds: [],
-      editBool: false,  
-    }
+      editBool: false
+    };
   },
   filters: {
     moment(value, format) {
-     return moment(value).format(format); 
+      return moment(value).format(format);
     }
   },
   watch: {
     $route(to, from) {
-      this.initData()
-      this.fetchItems(to.params.id)
+      this.initData();
+      this.fetchItems(to.params.id);
     }
   },
   computed: {
     bold: function() {
       self = this;
-      return function (id) {
-        for (let i = 0; i < self.boldNumbers.length; i ++) {
-          if (self.boldNumbers[i].number === (id + 1)) {
+      return function(id) {
+        for (let i = 0; i < self.boldNumbers.length; i++) {
+          if (self.boldNumbers[i].number === id + 1) {
             return {
-              "font-weight": "bold",
-            }
+              "font-weight": "bold"
+            };
           }
         }
-      }
+      };
     },
     link: function() {
       self = this;
-      return function (id) {
-        for (let i = 0; i < self.linkNumbers.length; i ++) {
-          if (self.linkNumbers[i].number === (id + 1)) {
-            return true
+      return function(id) {
+        for (let i = 0; i < self.linkNumbers.length; i++) {
+          if (self.linkNumbers[i].number === id + 1) {
+            return true;
           }
         }
-      }
+      };
     },
     pageIDs: function() {
       self = this;
       if (self.articleIds.length < 6) {
-        return self.articleIds
+        return self.articleIds;
       } else {
-        for (let i = 0; i < self.articleIds.length; i ++) {
+        for (let i = 0; i < self.articleIds.length; i++) {
           if (self.articleIds[i] === self.article.id) {
-            if (i > 1 && (self.articleIds.length - i) > 2) {
-              return [(i-1), i, (i+1), (i+2), (i+3)]
-            } else if (i < 2){
-              return [self.articleIds[0], self.articleIds[1], self.articleIds[2], self.articleIds[3], self.articleIds[4]]
-            } else if ((self.articleIds.length - i) <= 2) {
-              return [self.articleIds[(self.articleIds.length - 5)], self.articleIds[(self.articleIds.length - 4)], self.articleIds[(self.articleIds.length - 3)], self.articleIds[(self.articleIds.length - 2)], self.articleIds[(self.articleIds.length - 1)]]
+            if (i > 1 && self.articleIds.length - i > 2) {
+              return [i - 1, i, i + 1, i + 2, i + 3];
+            } else if (i < 2) {
+              return [
+                self.articleIds[0],
+                self.articleIds[1],
+                self.articleIds[2],
+                self.articleIds[3],
+                self.articleIds[4]
+              ];
+            } else if (self.articleIds.length - i <= 2) {
+              return [
+                self.articleIds[self.articleIds.length - 5],
+                self.articleIds[self.articleIds.length - 4],
+                self.articleIds[self.articleIds.length - 3],
+                self.articleIds[self.articleIds.length - 2],
+                self.articleIds[self.articleIds.length - 1]
+              ];
             }
           }
         }
@@ -138,26 +160,26 @@ export default {
       self = this;
       return function(id) {
         if (id === self.article.id) {
-          return "active"
+          return "active";
         }
-      }
+      };
     },
     pageIndex: function() {
       self = this;
       return function(id) {
-        for (let i = 0; i < self.articleIds.length; i ++) {
+        for (let i = 0; i < self.articleIds.length; i++) {
           if (self.articleIds[i] === id) {
-            return i
+            return i;
           }
         }
-      }
+      };
     }
   },
   mounted() {
-   axios.get(`/api/article/${this.$route.params.id}`).then((res) => {
+    axios.get(`/api/article/${this.$route.params.id}`).then(res => {
       this.article = res.data.article;
       this.lines = [];
-      console.log(this.lines)
+      console.log(this.lines);
       for (let i = 0; i < res.data.articleLines.length; i++) {
         this.lines.push(res.data.articleLines[i].line);
       }
@@ -168,58 +190,58 @@ export default {
         this.linkNumbers.push(res.data.linkNumbers[i]);
       }
       // get user
-      axios.get(`/api/user/${this.article.user_id}`).then((res) => {
+      axios.get(`/api/user/${this.article.user_id}`).then(res => {
         this.user = res.data.data;
-      })
+      });
       // get user's article IDs
-      axios.get(`/api/articles/${this.article.user_id}`).then((res) => {
-        for (let i = 0; i < res.data.length; i ++) {
-          this.articleIds.unshift(res.data[i].id)
+      axios.get(`/api/articles/${this.article.user_id}`).then(res => {
+        for (let i = 0; i < res.data.length; i++) {
+          this.articleIds.unshift(res.data[i].id);
         }
-      })
+      });
       // get check IDs
-      axios.get(`/api/checks/${this.article.id}`).then((res) => {
-        for (let i = 0; i < res.data.length; i ++) {
-          this.checkedUserIds.push(res.data[i].user_id)
+      axios.get(`/api/checks/${this.article.id}`).then(res => {
+        for (let i = 0; i < res.data.length; i++) {
+          this.checkedUserIds.push(res.data[i].user_id);
         }
-      })
-    })
+      });
+    });
     // get me
-    axios.get("/api/get_me").then((res) => {
+    axios.get("/api/get_me").then(res => {
       this.me = res.data.data;
-    })
+    });
   },
   methods: {
     fetchItems(id) {
-      axios.get(`/api/article/${id}`).then((res) => {
-      this.article = res.data.article;
-      for (let i = 0; i < res.data.articleLines.length; i++) {
-        this.lines.push(res.data.articleLines[i].line);
-      }
-      for (let i = 0; i < res.data.boldNumbers.length; i++) {
-        this.boldNumbers.push(res.data.boldNumbers[i]);
-      }
-      for (let i = 0; i < res.data.linkNumbers.length; i++) {
-        this.linkNumbers.push(res.data.linkNumbers[i]);
-      }
-      // get user
-      axios.get(`/api/user/${this.article.user_id}`).then((res) => {
-        this.user = res.data.data;
-      })
-      // get user's article IDs
-      axios.get(`/api/articles/${this.article.user_id}`).then((res) => {
-        for (let i = 0; i < res.data.length; i ++) {
-          this.articleIds.unshift(res.data[i].id)
+      axios.get(`/api/article/${id}`).then(res => {
+        this.article = res.data.article;
+        for (let i = 0; i < res.data.articleLines.length; i++) {
+          this.lines.push(res.data.articleLines[i].line);
         }
-      })
-      // // get checked user's IDs
-      axios.get(`/api/checks/${this.article.id}`).then((res) => {
-        for (let i = 0; i < res.data.length; i ++) {
-          this.checkedUserIds.push(res.data[i].user_id)
+        for (let i = 0; i < res.data.boldNumbers.length; i++) {
+          this.boldNumbers.push(res.data.boldNumbers[i]);
         }
-      })
-    })
-  },
+        for (let i = 0; i < res.data.linkNumbers.length; i++) {
+          this.linkNumbers.push(res.data.linkNumbers[i]);
+        }
+        // get user
+        axios.get(`/api/user/${this.article.user_id}`).then(res => {
+          this.user = res.data.data;
+        });
+        // get user's article IDs
+        axios.get(`/api/articles/${this.article.user_id}`).then(res => {
+          for (let i = 0; i < res.data.length; i++) {
+            this.articleIds.unshift(res.data[i].id);
+          }
+        });
+        // // get checked user's IDs
+        axios.get(`/api/checks/${this.article.id}`).then(res => {
+          for (let i = 0; i < res.data.length; i++) {
+            this.checkedUserIds.push(res.data[i].user_id);
+          }
+        });
+      });
+    },
     initData() {
       this.articleIds = [];
       this.lines = [];
@@ -228,63 +250,70 @@ export default {
       this.checkedUserIds = [];
     },
     changePage(id) {
-      this.$router.go(`/article/${id}`)
+      this.$router.go(`/article/${id}`);
     },
     goBack() {
       if (this.article.id !== this.articleIds[0]) {
-        for(let i = 0; i < this.articleIds.length; i ++) {
+        for (let i = 0; i < this.articleIds.length; i++) {
           if (this.articleIds[i] === this.article.id) {
-            this.$router.push(`/article/${(this.articleIds[i - 1])}`)
+            this.$router.push(`/article/${this.articleIds[i - 1]}`);
           }
         }
-      } 
+      }
     },
     goAhead() {
       if (this.article.id !== this.articleIds[this.articleIds.length - 1]) {
-        for(let i = 0; i < this.articleIds.length; i ++) {
+        for (let i = 0; i < this.articleIds.length; i++) {
           if (this.articleIds[i] === this.article.id) {
-            this.$router.push(`/article/${(this.articleIds[i + 1])}`)
+            this.$router.push(`/article/${this.articleIds[i + 1]}`);
           }
         }
       }
     },
     checkArticle() {
-      axios.post(`/api/checks/${this.article.id}`).then((res) => {
-        this.checkedUserIds.push(this.me.id)
-      })
+      axios.post(`/api/checks/${this.article.id}`).then(res => {
+        this.checkedUserIds.push(this.me.id);
+      });
     },
     deleteCheck() {
-      axios.delete(`/api/checks/${this.article.id}`).then((res) => {
-        this.checkedUserIds = this.checkedUserIds.filter(n => n !== this.me.id)
-      })
+      axios.delete(`/api/checks/${this.article.id}`).then(res => {
+        this.checkedUserIds = this.checkedUserIds.filter(n => n !== this.me.id);
+      });
     },
     deleteArticle() {
-      if(confirm("本当にこの記事を削除しますか?(Are you sure to delete this article?)")) {
-         axios.delete(`/api/articles/${this.article.id}`).then((res) => {
-          this.$router.push(`/profile/${this.me.id}`)
-        })
+      if (
+        confirm(
+          "本当にこの記事を削除しますか?(Are you sure to delete this article?)"
+        )
+      ) {
+        axios.delete(`/api/articles/${this.article.id}`).then(res => {
+          this.$router.push(`/profile/${this.me.id}`);
+        });
       }
     },
     editArticle() {
-      for (let i = 0; i < (this.lines.length - 1); i ++) {
-        this.lines[i] += "&divide;"
+      for (let i = 0; i < this.lines.length - 1; i++) {
+        this.lines[i] += "&divide;";
       }
       const params = new URLSearchParams();
-      console.log(this.article.title)
+      console.log(this.article.title);
       params.append("title", this.article.title);
       params.append("lines", this.lines);
-      axios.put(`/api/articles/${this.article.id}`, params).then((res) => {
-        this.lines = [];
-        for (let i = 0; i < res.data.data.length; i ++) {
-          this.lines.push(res.data.data[i]);
-        }
-      }).catch((err) => {
-        console.log(err.response);
-      })
+      axios
+        .put(`/api/articles/${this.article.id}`, params)
+        .then(res => {
+          this.lines = [];
+          for (let i = 0; i < res.data.data.length; i++) {
+            this.lines.push(res.data.data[i]);
+          }
+        })
+        .catch(err => {
+          console.log(err.response);
+        });
       this.editBool = false;
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -307,7 +336,7 @@ export default {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      .link-to-profile{
+      .link-to-profile {
         color: #333;
       }
       .check {
@@ -321,10 +350,10 @@ export default {
     }
 
     .title-wrapper {
-       margin-bottom: 60px;
-       .edit-title {
-         margin-top: 40px;
-       }
+      margin-bottom: 60px;
+      .edit-title {
+        margin-top: 40px;
+      }
       .title {
         font-size: 1.5rem;
         font-weight: bold;
