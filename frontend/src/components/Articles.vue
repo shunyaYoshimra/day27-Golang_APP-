@@ -6,13 +6,21 @@
           <span class="hide">{{user = userOfArticle(article.user_id)}}</span>
           <span class="hide">{{occupation = occupationOfArticle(article.user_id)}}</span>
           <div class="top-wrapper">
-            <span class="title">{{article.title}}</span><br>
+            <span class="title">{{article.title}}</span>
+            <br />
             <small>{{article.created_at | moment("MMMM Do YYYY")}}</small>
           </div>
-          <hr>
-          <span>{{user.name}}</span><br>
-          <small>{{occupation.kind}}</small><br>
-          <small>{{occupation.description}}</small>
+          <hr />
+          <span>{{user.name}}</span>
+          <br />
+          <template v-if="occupation !== null">
+            <small>{{occupation.kind}}</small>
+            <br />
+            <small>{{occupation.description}}</small>
+          </template>
+          <template v-else>
+            <small>職業情報はまだ設定されていません</small>
+          </template>
         </div>
       </router-link>
     </div>
@@ -28,63 +36,63 @@ export default {
       me: {},
       articles: [],
       users: [],
-      occupations: [],
-    }
+      occupations: []
+    };
   },
   filters: {
     moment(value, format) {
-     return moment(value).format(format); 
+      return moment(value).format(format);
     }
   },
   mounted() {
     //  get articles
-    axios.get("/api/articles").then((res) => {
-      for (let i = 0; i < res.data.length; i ++) {
+    axios.get("/api/articles").then(res => {
+      for (let i = 0; i < res.data.length; i++) {
         this.articles.push(res.data[i]);
       }
-    })
+    });
     // get me
-    axios.get("/api/get_me").then((res) => {
-      this.me = res.data.data
-    })
+    axios.get("/api/get_me").then(res => {
+      this.me = res.data.data;
+    });
     //  get users
-    axios.get("/api/users").then((res) => {
+    axios.get("/api/users").then(res => {
       // console.log(res.data);
-      for (let i = 0; i < res.data.length; i ++) {
-        this.users.push(res.data[i])
+      for (let i = 0; i < res.data.length; i++) {
+        this.users.push(res.data[i]);
       }
-    })
+    });
     // get occupations
-    axios.get("/api/occupations").then((res) => {
-      console.log(res.data)
-      for (let i = 0; i < res.data.length; i ++) {
-        this.occupations.push(res.data[i])
+    axios.get("/api/occupations").then(res => {
+      console.log(res.data);
+      for (let i = 0; i < res.data.length; i++) {
+        this.occupations.push(res.data[i]);
       }
-    })
+    });
   },
   computed: {
     userOfArticle: function() {
       self = this;
       return function(id) {
-        for (let i = 0; i < self.users.length; i ++) {
+        for (let i = 0; i < self.users.length; i++) {
           if (self.users[i].id === id) {
-            return self.users[i]
+            return self.users[i];
           }
         }
-      }
+      };
     },
     occupationOfArticle: function() {
       self = this;
       return function(id) {
-        for (let i = 0; i < self.occupations.length; i ++) {
+        for (let i = 0; i < self.occupations.length; i++) {
           if (self.occupations[i].user_id === id) {
-            return self.occupations[i]
+            return self.occupations[i];
           }
         }
-      }
+      };
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
