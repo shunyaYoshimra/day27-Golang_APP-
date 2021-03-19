@@ -73,7 +73,7 @@
           </div>
         </div>
         <!-- images modal -->
-        <tempalte v-if="id === modalNum">
+        <template v-if="id === modalNum">
           <div class="images-modal">
             <i @click="closeModal()" class="material-icons close-modal">close</i>
             <template v-if="imageNum !== 0">
@@ -86,7 +86,7 @@
               <img :src="imagePath + post.images[imageNum].file_name" />
             </template>
           </div>
-        </tempalte>
+        </template>
       </div>
     </div>
   </div>
