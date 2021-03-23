@@ -3,24 +3,35 @@
     <div v-for="(article, id) in articles" :key="id">
       <router-link :to="'/article/' + article.id">
         <div class="card-panel">
-          <span class="hide">{{user = userOfArticle(article.user_id)}}</span>
-          <span class="hide">{{occupation = occupationOfArticle(article.user_id)}}</span>
+          <span class="hide">{{name = userNameOfArticle(article.user_id)}}</span>
+          <span class="hide">{{kind = kindOfArticle(article.user_id)}}</span>
+          <span class="hide">{{description = descriptionOfArticle(article.user_id)}}</span>
           <div class="top-wrapper">
             <span class="title">{{article.title}}</span>
             <br />
             <small>{{article.created_at | moment("MMMM Do YYYY")}}</small>
           </div>
           <hr />
-          <span>{{user.name}}</span>
+          <span>{{name}}</span>
           <br />
-          <template v-if="occupation !== null">
+          <template v-if="kind == null && description == null">
+            <small>職業情報はまだ設定されていません</small>
+          </template>
+          <template v-else>
+            <div>
+              <small>{{kind}}</small>
+              <br />
+              <small>{{description}}</small>
+            </div>
+          </template>
+          <!-- <template v-if="occupation !== null">
             <small>{{occupation.kind}}</small>
             <br />
             <small>{{occupation.description}}</small>
           </template>
           <template v-else>
             <small>職業情報はまだ設定されていません</small>
-          </template>
+          </template>-->
         </div>
       </router-link>
     </div>
@@ -71,22 +82,32 @@ export default {
     });
   },
   computed: {
-    userOfArticle: function() {
+    userNameOfArticle: function() {
       self = this;
       return function(id) {
         for (let i = 0; i < self.users.length; i++) {
           if (self.users[i].id === id) {
-            return self.users[i];
+            return self.users[i].name;
           }
         }
       };
     },
-    occupationOfArticle: function() {
+    kindOfArticle: function() {
       self = this;
       return function(id) {
         for (let i = 0; i < self.occupations.length; i++) {
           if (self.occupations[i].user_id === id) {
-            return self.occupations[i];
+            return self.occupations[i].kind;
+          }
+        }
+      };
+    },
+    descriptionOfArticle: function() {
+      self = this;
+      return function(id) {
+        for (let i = 0; i < self.occupations.length; i++) {
+          if (self.occupations[i].user_id === id) {
+            return self.occupations[i].description;
           }
         }
       };
